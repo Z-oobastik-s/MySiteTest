@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0f">
+    <title>Голосование - Zoobastiks Minecraft Server</title>
+    <meta name="description" content="Голосование на сервере Zoobastiks. Голосуй за наш сервер и получай вознаграждения!">
+    
+    <!-- Preload критических ресурсов -->
+    <link rel="preload" href="../css/dark-theme.css" as="style">
+    <link rel="preload" href="../js/app.js" as="script">
+    <link rel="preload" href="../Founts/Minecrafter-MA3Dw.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="../icon/background_zoobastiks.jpg" as="image">
+    
+    <!-- Favicon и иконки -->
+    <link rel="icon" href="../icon/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="../icon/logo.png">
+    
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Специфичные стили для страницы голосования */
+        .vote-container {
+            margin-top: 2rem;
+        }
+        
+        .vote-info {
+            background: rgba(15, 15, 20, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(93, 79, 240, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .vote-info.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .vote-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .vote-card {
+            background: rgba(20, 20, 30, 0.7);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(93, 79, 240, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .vote-card.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .vote-card:hover {
+            border-color: rgba(93, 79, 240, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 8px rgba(93, 79, 240, 0.3);
+        }
+        
+        .vote-card__title {
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(93, 79, 240, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        .vote-card__title i {
+            margin-right: 0.75rem;
+            color: var(--primary);
+        }
+        
+        .vote-card__description {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .vote-card__link {
+            background: rgba(93, 79, 240, 0.2);
+            border: 1px solid rgba(93, 79, 240, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: var(--light);
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .vote-card__link:hover {
+            background: rgba(93, 79, 240, 0.3);
+            border-color: rgba(93, 79, 240, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .vote-card__link i {
+            margin-right: 0.5rem;
+        }
+        
+        .rewards-section {
+            background: rgba(15, 15, 20, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(93, 79, 240, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .rewards-section.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .rewards-section:hover {
+            border-color: rgba(93, 79, 240, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 10px rgba(93, 79, 240, 0.2);
+        }
+        
+        .rewards-title {
+            color: var(--primary-light);
+            margin-bottom: 1.5rem;
+            font-family: 'Minecraft', sans-serif;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(93, 79, 240, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        .rewards-title i {
+            margin-right: 0.75rem;
+            color: var(--primary);
+        }
+        
+        .rewards-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .reward-item {
+            background: rgba(30, 30, 45, 0.7);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(93, 79, 240, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .reward-item:hover {
+            border-color: rgba(93, 79, 240, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), 0 0 5px rgba(93, 79, 240, 0.2);
+        }
+        
+        .reward-item__icon {
+            width: 32px;
+            height: 32px;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+        
+        .reward-item__icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .reward-item__name {
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .vote-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .rewards-list {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Лоадер -->
+    <div class="loader" id="loader">
+        <div class="loader__cube">
+            <div class="loader__cube-face" style="background: #5d4ff0; transform: translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #38b2ac; transform: rotateY(180deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #e05a00; transform: rotateY(90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #18b566; transform: rotateY(-90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #ef4444; transform: rotateX(90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #0ea5e9; transform: rotateX(-90deg) translateZ(30px);"></div>
+        </div>
+    </div>
+
+    <!-- Контейнер приложения -->
+    <div id="app">
+        <header class="header">
+            <div class="container">
+                <div class="header__content">
+                    <h1 class="header__title">Zoobastiks Minecraft</h1>
+                    <p class="header__subtitle">Голосование</p>
+                </div>
+            </div>
+        </header>
+        
+        <nav class="navigation">
+            <div class="container">
+                <ul class="navigation__list">
+                    <li class="navigation__item"><a href="../index.html" class="navigation__link">Главная</a></li>
+                    <li class="navigation__item"><a href="wiki.html" class="navigation__link">Вики</a></li>
+                    <li class="navigation__item"><a href="voting.html" class="navigation__link navigation__link--active">Голосование</a></li>
+                    <li class="navigation__item"><a href="commands.html" class="navigation__link">Команды</a></li>
+                    <li class="navigation__item"><a href="rules.html" class="navigation__link">Правила</a></li>
+                    <li class="navigation__item"><a href="news.html" class="navigation__link">Новости</a></li>
+                    <li class="navigation__item"><a href="help.html" class="navigation__link">Помощь</a></li>
+                    <li class="navigation__item"><a href="plugins.html" class="navigation__link">Плагины</a></li>
+                    <li class="navigation__item"><a href="https://t.me/ReZoobastik" class="navigation__link">Телеграм</a></li>
+                    <li class="navigation__item"><a href="../admin/index.html" class="navigation__link">☣︎</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <main class="main">
+            <div class="container">
+                <section class="hero">
+                    <div class="hero__content">
+                        <h2 class="hero__title">Голосование за сервер</h2>
+                        <p class="hero__description">Помогите нашему серверу расти и получайте награды за голосование</p>
+                    </div>
+                </section>
+                
+                <div class="vote-container">
+                    <div class="vote-info" data-animation="fade-in">
+                        <h3><i class="fas fa-info-circle"></i> Как это работает?</h3>
+                        <p>Голосуя за наш сервер на различных мониторингах, вы помогаете нам привлекать новых игроков и развиваться дальше. За каждый голос вы получаете ценные внутриигровые награды!</p>
+                        <p>Голосовать можно раз в 24 часа на каждом мониторинге. Чем больше мониторингов вы используете, тем больше наград получаете.</p>
+                    </div>
+                    
+                    <div class="vote-cards">
+                        <div class="vote-card" data-animation="fade-in">
+                            <h3 class="vote-card__title"><i class="fas fa-star"></i> MinecraftRating</h3>
+                            <p class="vote-card__description">Один из крупнейших мониторингов Minecraft серверов в России. Голосуйте и помогите нам подняться в рейтинге!</p>
+                            <a href="https://minecraftrating.ru/vote/201690/" target="_blank" class="vote-card__link">
+                                <i class="fas fa-external-link-alt"></i> Голосовать
+                            </a>
+                        </div>
+                        
+                        <div class="vote-card" data-animation="fade-in">
+                            <h3 class="vote-card__title"><i class="fas fa-fire"></i> HotMC</h3>
+                            <p class="vote-card__description">Популярный мониторинг, позволяющий находить качественные сервера. Ваш голос очень важен для нас!</p>
+                            <a href="https://hotmc.ru/minecraft-server-191520" target="_blank" class="vote-card__link">
+                                <i class="fas fa-external-link-alt"></i> Голосовать
+                            </a>
+                        </div>
+                        
+                        <div class="vote-card" data-animation="fade-in">
+                            <h3 class="vote-card__title"><i class="fas fa-chart-line"></i> TMonitoring</h3>
+                            <p class="vote-card__description">Мониторинг с большой аудиторией игроков, ищущих качественные сервера. Голосуйте и поднимайте нас в топ!</p>
+                            <a href="https://tmonitoring.com/server/zoobastiks/" target="_blank" class="vote-card__link">
+                                <i class="fas fa-external-link-alt"></i> Голосовать
+                            </a>
+                        </div>
+                        
+                        <div class="vote-card" data-animation="fade-in">
+                            <h3 class="vote-card__title"><i class="fas fa-server"></i> MineServ</h3>
+                            <p class="vote-card__description">Еще один популярный мониторинг Minecraft серверов. Ваша поддержка помогает привлекать новых игроков!</p>
+                            <a href="https://mineserv.top/zoobastiks" target="_blank" class="vote-card__link">
+                                <i class="fas fa-external-link-alt"></i> Голосовать
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="rewards-section" data-animation="fade-in">
+                        <h3 class="rewards-title"><i class="fas fa-gift"></i> Награды за голосование</h3>
+                        <p>За каждый голос вы получаете различные полезные награды, которые помогут в игровом процессе:</p>
+                        
+                        <div class="rewards-list">
+                            <div class="reward-item">
+                                <div class="reward-item__icon">
+                                    <img src="../icon/emerald.png" alt="Монеты">
+                                </div>
+                                <div class="reward-item__name">10-20 монет</div>
+                            </div>
+                            
+                            <div class="reward-item">
+                                <div class="reward-item__icon">
+                                    <i class="fas fa-gem"></i>
+                                </div>
+                                <div class="reward-item__name">Редкие руды</div>
+                            </div>
+                            
+                            <div class="reward-item">
+                                <div class="reward-item__icon">
+                                    <img src="../icon/enchant_book.png" alt="Зачарованные книги">
+                                </div>
+                                <div class="reward-item__name">Зачарованные книги</div>
+                            </div>
+                            
+                            <div class="reward-item">
+                                <div class="reward-item__icon">
+                                    <img src="../icon/golden_sword.png" alt="Оружие">
+                                </div>
+                                <div class="reward-item__name">Улучшенное оружие</div>
+                            </div>
+                            
+                            <div class="reward-item">
+                                <div class="reward-item__icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="reward-item__name">Защитное снаряжение</div>
+                            </div>
+                            
+                            <div class="reward-item">
+                                <div class="reward-item__icon">
+                                    <img src="../icon/Rose_Flower.png" alt="Редкие блоки">
+                                </div>
+                                <div class="reward-item__name">Редкие блоки</div>
+                            </div>
+                        </div>
+                        
+                        <div class="rewards-note" style="margin-top: 1.5rem; background: rgba(24, 181, 102, 0.1); border-left: 3px solid var(--success); padding: 1rem; border-radius: 0 0.5rem 0.5rem 0;">
+                            <strong>Бонус:</strong> Если вы проголосуете на всех мониторингах в течение одного дня, вы получите дополнительную награду в виде 50 монет и случайных редких предметов!
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Кнопки навигации -->
+                <div class="button-container">
+                    <a href="wiki.html" class="btn btn--secondary">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </a>
+                    <a href="commands.html" class="btn btn--primary">
+                        Вперед <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__content">
+                    <div class="footer__copyright">
+                        <p>&copy; 2025 <a href="../index.html">Zoobastiks Minecraft Server</a>. Все права защищены.</p>
+                        <p>Minecraft является торговой маркой Mojang Studios.</p>
+                    </div>
+                    <div class="footer__links">
+                        <a href="https://discord.gg/vEaCqQ7kXN" class="social-link" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                        <a href="https://t.me/ReZoobastik" class="social-link" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Шаблон для оповещений -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Скрипты приложения -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Показать тело после загрузки
+            document.body.style.opacity = 1;
+            
+            // Скрыть лоадер после загрузки контента
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = 0;
+                document.getElementById('app').style.opacity = 1;
+                
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 800);
+            
+            // Анимации при скролле
+            const animateElements = document.querySelectorAll('[data-animation="fade-in"]');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html> 

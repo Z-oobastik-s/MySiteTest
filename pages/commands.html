@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0f">
+    <title>Команды - Zoobastiks Minecraft Server</title>
+    <meta name="description" content="Полный список команд доступных на сервере Zoobastiks Minecraft">
+    
+    <!-- Preload критических ресурсов -->
+    <link rel="preload" href="../css/dark-theme.css" as="style">
+    <link rel="preload" href="../js/app.js" as="script">
+    <link rel="preload" href="../Founts/Minecrafter-MA3Dw.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="../icon/background_zoobastiks.jpg" as="image">
+    
+    <!-- Favicon и иконки -->
+    <link rel="icon" href="../icon/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="../icon/logo.png">
+    
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Специфичные стили для страницы команд */
+        .commands-container {
+            margin-top: 2rem;
+        }
+        
+        .commands-category {
+            background: rgba(15, 15, 20, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(93, 79, 240, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .commands-category.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .commands-category:hover {
+            border-color: rgba(93, 79, 240, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 10px rgba(93, 79, 240, 0.2);
+        }
+        
+        .commands-category__title {
+            color: var(--primary-light);
+            margin-bottom: 1.5rem;
+            font-family: 'Minecraft', sans-serif;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(93, 79, 240, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        .commands-category__title i {
+            margin-right: 0.75rem;
+            color: var(--primary);
+        }
+        
+        .commands-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        
+        .command-item {
+            background: rgba(30, 30, 45, 0.7);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid rgba(93, 79, 240, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .command-item:hover {
+            border-color: rgba(93, 79, 240, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), 0 0 5px rgba(93, 79, 240, 0.2);
+        }
+        
+        .command-item__title {
+            font-family: monospace;
+            color: var(--primary-light);
+            background: rgba(93, 79, 240, 0.1);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            border: 1px solid rgba(93, 79, 240, 0.3);
+            word-break: break-all;
+        }
+        
+        .command-item__description {
+            color: var(--light);
+            font-size: 0.95rem;
+        }
+        
+        .command-tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            border-radius: 1rem;
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .command-tag--general {
+            background-color: rgba(24, 181, 102, 0.2);
+            color: #47d896;
+        }
+        
+        .command-tag--oneblock {
+            background-color: rgba(93, 79, 240, 0.2);
+            color: #7e71ff;
+        }
+        
+        .command-tag--economy {
+            background-color: rgba(234, 179, 8, 0.2);
+            color: #f6d860;
+        }
+        
+        .command-tag--social {
+            background-color: rgba(14, 165, 233, 0.2);
+            color: #62ddff;
+        }
+        
+        .command-tag--fun {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #ff7b7b;
+        }
+        
+        .telegram-commands {
+            margin-top: 3rem;
+        }
+        
+        .telegram-commands__title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .telegram-commands__title i {
+            margin-right: 0.75rem;
+            color: #0088cc;
+        }
+        
+        .telegram-commands__note {
+            background: rgba(14, 165, 233, 0.1);
+            border-left: 3px solid #0088cc;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        .search-container {
+            margin-bottom: 2rem;
+        }
+        
+        .search-input {
+            width: 100%;
+            background: rgba(20, 20, 30, 0.7);
+            border: 1px solid rgba(93, 79, 240, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: rgba(93, 79, 240, 0.7);
+            box-shadow: 0 0 0 2px rgba(93, 79, 240, 0.2);
+        }
+        
+        .search-input::placeholder {
+            color: rgba(224, 224, 240, 0.5);
+        }
+        
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(93, 79, 240, 0.3);
+        }
+        
+        .category-tab {
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            color: var(--light);
+            opacity: 0.7;
+        }
+        
+        .category-tab:hover {
+            opacity: 1;
+            background: rgba(93, 79, 240, 0.1);
+        }
+        
+        .category-tab.active {
+            border-bottom-color: var(--primary);
+            opacity: 1;
+            font-weight: 600;
+            color: var(--primary-light);
+        }
+        
+        @media (max-width: 768px) {
+            .commands-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                justify-content: flex-start;
+            }
+            
+            .category-tab {
+                flex: 0 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Лоадер -->
+    <div class="loader" id="loader">
+        <div class="loader__cube">
+            <div class="loader__cube-face" style="background: #5d4ff0; transform: translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #38b2ac; transform: rotateY(180deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #e05a00; transform: rotateY(90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #18b566; transform: rotateY(-90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #ef4444; transform: rotateX(90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #0ea5e9; transform: rotateX(-90deg) translateZ(30px);"></div>
+        </div>
+    </div>
+
+    <!-- Контейнер приложения -->
+    <div id="app">
+        <header class="header">
+            <div class="container">
+                <div class="header__content">
+                    <h1 class="header__title">Zoobastiks Minecraft</h1>
+                    <p class="header__subtitle">Команды сервера</p>
+                </div>
+            </div>
+        </header>
+        
+        <nav class="navigation">
+            <div class="container">
+                <ul class="navigation__list">
+                    <li class="navigation__item"><a href="../index.html" class="navigation__link">Главная</a></li>
+                    <li class="navigation__item"><a href="wiki.html" class="navigation__link">Вики</a></li>
+                    <li class="navigation__item"><a href="voting.html" class="navigation__link">Голосование</a></li>
+                    <li class="navigation__item"><a href="commands.html" class="navigation__link navigation__link--active">Команды</a></li>
+                    <li class="navigation__item"><a href="rules.html" class="navigation__link">Правила</a></li>
+                    <li class="navigation__item"><a href="news.html" class="navigation__link">Новости</a></li>
+                    <li class="navigation__item"><a href="help.html" class="navigation__link">Помощь</a></li>
+                    <li class="navigation__item"><a href="plugins.html" class="navigation__link">Плагины</a></li>
+                    <li class="navigation__item"><a href="https://t.me/ReZoobastik" class="navigation__link">Телеграм</a></li>
+                    <li class="navigation__item"><a href="../admin/index.html" class="navigation__link">☣︎</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <main class="main">
+            <div class="container">
+                <section class="hero">
+                    <div class="hero__content">
+                        <h2 class="hero__title">Команды сервера</h2>
+                        <p class="hero__description">Полный список команд доступных для использования на сервере Zoobastiks</p>
+                    </div>
+                </section>
+                
+                <div class="commands-container">
+                    <div class="search-container">
+                        <input type="text" id="commandSearch" class="search-input" placeholder="Поиск команд...">
+                    </div>
+                    
+                    <div class="category-tabs" id="categoryTabs">
+                        <div class="category-tab active" data-category="all">Все команды</div>
+                        <div class="category-tab" data-category="general">Основные</div>
+                        <div class="category-tab" data-category="oneblock">ОдинБлок</div>
+                        <div class="category-tab" data-category="economy">Экономика</div>
+                        <div class="category-tab" data-category="social">Социальные</div>
+                        <div class="category-tab" data-category="fun">Развлечения</div>
+                    </div>
+                    
+                    <div class="commands-category" data-animation="fade-in">
+                        <h3 class="commands-category__title"><i class="fas fa-shield-alt"></i> Авторизация и безопасность</h3>
+                        <div class="commands-list">
+                            <div class="command-item" data-category="general">
+                                <div class="command-item__title">/reg [пароль]</div>
+                                <p class="command-item__description">Регистрация аккаунта на сервере. Используйте надежный пароль.</p>
+                                <span class="command-tag command-tag--general">Основная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="general">
+                                <div class="command-item__title">/l [пароль]</div>
+                                <p class="command-item__description">Авторизация на сервере после регистрации.</p>
+                                <span class="command-tag command-tag--general">Основная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="general">
+                                <div class="command-item__title">/changepass [Старый пароль] [Новый пароль]</div>
+                                <p class="command-item__description">Изменение пароля от аккаунта.</p>
+                                <span class="command-tag command-tag--general">Основная</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="commands-category" data-animation="fade-in">
+                        <h3 class="commands-category__title"><i class="fas fa-coins"></i> Экономика и торговля</h3>
+                        <div class="commands-list">
+                            <div class="command-item" data-category="economy">
+                                <div class="command-item__title">/balance</div>
+                                <p class="command-item__description">Посмотреть текущий баланс монет на вашем счету.</p>
+                                <span class="command-tag command-tag--economy">Экономика</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="economy">
+                                <div class="command-item__title">/pay [nickname] [amount]</div>
+                                <p class="command-item__description">Перевести указанное количество монет другому игроку.</p>
+                                <span class="command-tag command-tag--economy">Экономика</span>
+                                <span class="command-tag command-tag--social">Социальная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="economy">
+                                <div class="command-item__title">/shop</div>
+                                <p class="command-item__description">Открыть магазин сервера, где можно купить ресурсы и другие предметы за монеты.</p>
+                                <span class="command-tag command-tag--economy">Экономика</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="economy">
+                                <div class="command-item__title">/ah</div>
+                                <p class="command-item__description">Открыть аукцион сервера, где игроки продают различные предметы.</p>
+                                <span class="command-tag command-tag--economy">Экономика</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="economy">
+                                <div class="command-item__title">/ah sell [Цена]</div>
+                                <p class="command-item__description">Выставить предмет из вашей руки на аукцион за указанную цену.</p>
+                                <span class="command-tag command-tag--economy">Экономика</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="economy">
+                                <div class="command-item__title">/ah cancel</div>
+                                <p class="command-item__description">Снять свой предмет с продажи на аукционе.</p>
+                                <span class="command-tag command-tag--economy">Экономика</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="economy">
+                                <div class="command-item__title">/ah collect</div>
+                                <p class="command-item__description">Забрать просроченные предметы с аукциона.</p>
+                                <span class="command-tag command-tag--economy">Экономика</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="economy">
+                                <div class="command-item__title">/ah amount</div>
+                                <p class="command-item__description">Показать количество выставленных вами на аукцион предметов (максимум 100).</p>
+                                <span class="command-tag command-tag--economy">Экономика</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="commands-category" data-animation="fade-in">
+                        <h3 class="commands-category__title"><i class="fas fa-cube"></i> Команды ОдинБлок</h3>
+                        <div class="commands-list">
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob</div>
+                                <p class="command-item__description">Телепортация на ваш остров в режиме ОдинБлок.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob ban [nickname]</div>
+                                <p class="command-item__description">Забанить игрока на вашем острове, запретив ему посещать его.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob banlist</div>
+                                <p class="command-item__description">Показать список забаненных на вашем острове игроков.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob count</div>
+                                <p class="command-item__description">Показать фазу вашего острова и количество сломанных блоков.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob deletehome [namehome]</div>
+                                <p class="command-item__description">Удалить точку дома на острове с указанным названием.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob expel [nickname]</div>
+                                <p class="command-item__description">Выгнать игрока с вашего острова.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob homes</div>
+                                <p class="command-item__description">Посмотреть список установленных точек дома на острове.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob likes</div>
+                                <p class="command-item__description">Посмотреть/поставить лайк острову.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob near</div>
+                                <p class="command-item__description">Найти острова, расположенные рядом с вашим.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob phases</div>
+                                <p class="command-item__description">Посмотреть все доступные фазы на сервере.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob reset</div>
+                                <p class="command-item__description">Пересоздать остров, удалив старый и начав с нуля.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob respawnBlock</div>
+                                <p class="command-item__description">Восстановить блок, если он каким-то образом исчез или сломался.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob sethome [namehome]</div>
+                                <p class="command-item__description">Установить точку дома на острове с указанным названием.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob setname [name]</div>
+                                <p class="command-item__description">Установить название вашего острова (будет отображаться в /ob visit).</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob settings</div>
+                                <p class="command-item__description">Открыть меню настроек вашего острова с различными опциями.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob unban [nickname]</div>
+                                <p class="command-item__description">Разбанить игрока на вашем острове.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob visit</div>
+                                <p class="command-item__description">Открыть меню для посещения островов других игроков.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob visit configure</div>
+                                <p class="command-item__description">Настройки посещения вашего острова (закрыть/открыть, установить плату).</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob visit setlocation</div>
+                                <p class="command-item__description">Установить точку появления для игроков, посещающих ваш остров.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob team</div>
+                                <p class="command-item__description">Показать информацию о вашей команде игроков.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob team invite [nickname]</div>
+                                <p class="command-item__description">Отправить приглашение игроку для создания общего острова.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="oneblock">
+                                <div class="command-item__title">/ob team help</div>
+                                <p class="command-item__description">Показать дополнительные команды для управления командой острова.</p>
+                                <span class="command-tag command-tag--oneblock">ОдинБлок</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="commands-category" data-animation="fade-in">
+                        <h3 class="commands-category__title"><i class="fas fa-users"></i> Социальные команды</h3>
+                        <div class="commands-list">
+                            <div class="command-item" data-category="social">
+                                <div class="command-item__title">/t [nickname] [message]</div>
+                                <p class="command-item__description">Отправить личное сообщение игроку.</p>
+                                <span class="command-tag command-tag--social">Социальная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="social">
+                                <div class="command-item__title">/tell [nickname] [message]</div>
+                                <p class="command-item__description">Альтернативная команда для отправки личного сообщения.</p>
+                                <span class="command-tag command-tag--social">Социальная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="social">
+                                <div class="command-item__title">/r [message]</div>
+                                <p class="command-item__description">Ответить на последнее полученное личное сообщение.</p>
+                                <span class="command-tag command-tag--social">Социальная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="social">
+                                <div class="command-item__title">/me</div>
+                                <p class="command-item__description">Отправить сообщение в третьем лице (действие).</p>
+                                <span class="command-tag command-tag--social">Социальная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="social">
+                                <div class="command-item__title">/telegram</div>
+                                <p class="command-item__description">Получить ссылку на Telegram канал сервера.</p>
+                                <span class="command-tag command-tag--social">Социальная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="social">
+                                <div class="command-item__title">/discord</div>
+                                <p class="command-item__description">Получить ссылку на Discord сервер.</p>
+                                <span class="command-tag command-tag--social">Социальная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="social">
+                                <div class="command-item__title">/sex [nickname]</div>
+                                <p class="command-item__description">Отправить предложение другому игроку, после чего появится "ребенок" с кастомными торгами.</p>
+                                <span class="command-tag command-tag--social">Социальная</span>
+                                <span class="command-tag command-tag--fun">Развлечение</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="social">
+                                <div class="command-item__title">/tpa [nickname]</div>
+                                <p class="command-item__description">Отправить запрос на телепортацию к игроку.</p>
+                                <span class="command-tag command-tag--social">Социальная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="social">
+                                <div class="command-item__title">/tpahere [nickname]</div>
+                                <p class="command-item__description">Отправить запрос игроку телепортироваться к вам.</p>
+                                <span class="command-tag command-tag--social">Социальная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="social">
+                                <div class="command-item__title">/tpaccept [nickname]</div>
+                                <p class="command-item__description">Принять запрос на телепортацию (или кликнуть на сообщение в чате).</p>
+                                <span class="command-tag command-tag--social">Социальная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="social">
+                                <div class="command-item__title">/tpdeny [nickname]</div>
+                                <p class="command-item__description">Отклонить запрос на телепортацию от игрока.</p>
+                                <span class="command-tag command-tag--social">Социальная</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="commands-category" data-animation="fade-in">
+                        <h3 class="commands-category__title"><i class="fas fa-gamepad"></i> Прочие игровые команды</h3>
+                        <div class="commands-list">
+                            <div class="command-item" data-category="general">
+                                <div class="command-item__title">/ab toggle</div>
+                                <p class="command-item__description">Отключить сообщения в чате от ботов.</p>
+                                <span class="command-tag command-tag--general">Основная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="general">
+                                <div class="command-item__title">/help</div>
+                                <p class="command-item__description">Открыть меню помощи с основной информацией.</p>
+                                <span class="command-tag command-tag--general">Основная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="general">
+                                <div class="command-item__title">/kit старт</div>
+                                <p class="command-item__description">Получить стартовый набор предметов.</p>
+                                <span class="command-tag command-tag--general">Основная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="general">
+                                <div class="command-item__title">/menu</div>
+                                <p class="command-item__description">Открыть главное меню сервера с доступными опциями.</p>
+                                <span class="command-tag command-tag--general">Основная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="general">
+                                <div class="command-item__title">/spawn</div>
+                                <p class="command-item__description">Телепортация на спавн сервера.</p>
+                                <span class="command-tag command-tag--general">Основная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="general">
+                                <div class="command-item__title">/suicide</div>
+                                <p class="command-item__description">Самоубийство, если вы где-то застряли или хотите вернуться на спавн.</p>
+                                <span class="command-tag command-tag--general">Основная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="general">
+                                <div class="command-item__title">/skin [nickname]</div>
+                                <p class="command-item__description">Установить себе скин другого игрока.</p>
+                                <span class="command-tag command-tag--general">Основная</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="general">
+                                <div class="command-item__title">/skin url [url adress]</div>
+                                <p class="command-item__description">Загрузить свой скин по ссылке (должна заканчиваться на .png).</p>
+                                <span class="command-tag command-tag--general">Основная</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="commands-category" data-animation="fade-in">
+                        <h3 class="commands-category__title"><i class="fas fa-grin"></i> Развлечения и анимации</h3>
+                        <div class="commands-list">
+                            <div class="command-item" data-category="fun">
+                                <div class="command-item__title">/crawl</div>
+                                <p class="command-item__description">Ползти по земле (анимация).</p>
+                                <span class="command-tag command-tag--fun">Развлечение</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="fun">
+                                <div class="command-item__title">/lay</div>
+                                <p class="command-item__description">Лечь на землю (анимация).</p>
+                                <span class="command-tag command-tag--fun">Развлечение</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="fun">
+                                <div class="command-item__title">/sit</div>
+                                <p class="command-item__description">Сесть на землю (анимация).</p>
+                                <span class="command-tag command-tag--fun">Развлечение</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="fun">
+                                <div class="command-item__title">/head</div>
+                                <p class="command-item__description">Открыть меню декоративных голов, доступных бесплатно.</p>
+                                <span class="command-tag command-tag--fun">Развлечение</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="fun">
+                                <div class="command-item__title">/itf</div>
+                                <p class="command-item__description">Меню настройки рамок для украшения (невидимость, цвет).</p>
+                                <span class="command-tag command-tag--fun">Развлечение</span>
+                            </div>
+                            
+                            <div class="command-item" data-category="fun">
+                                <div class="command-item__title">/music</div>
+                                <p class="command-item__description">Открыть меню с кастомной музыкой (требуется ресурспак сервера).</p>
+                                <span class="command-tag command-tag--fun">Развлечение</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="telegram-commands" data-animation="fade-in">
+                        <h3 class="commands-category__title telegram-commands__title"><i class="fab fa-telegram"></i> Команды Telegram канала</h3>
+                        <p>В нашем <a href="https://t.me/ReZoobastik" target="_blank">Telegram канале</a> доступны следующие команды для взаимодействия с сервером:</p>
+                        
+                        <div class="commands-list">
+                            <div class="command-item">
+                                <div class="command-item__title">/online</div>
+                                <p class="command-item__description">Посмотреть текущий онлайн на сервере.</p>
+                            </div>
+                            
+                            <div class="command-item">
+                                <div class="command-item__title">/tps</div>
+                                <p class="command-item__description">Проверить TPS (тики в секунду) сервера.</p>
+                            </div>
+                            
+                            <div class="command-item">
+                                <div class="command-item__title">/player [Nickname]</div>
+                                <p class="command-item__description">Получить информацию об указанном игроке.</p>
+                            </div>
+                            
+                            <div class="command-item">
+                                <div class="command-item__title">/gender [man/gerl]</div>
+                                <p class="command-item__description">Установить свой пол в профиле.</p>
+                            </div>
+                            
+                            <div class="command-item">
+                                <div class="command-item__title">/game</div>
+                                <p class="command-item__description">Поиграть в игру "Угадай слово" с возможностью получить 5 монет за правильный ответ.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="telegram-commands__note">
+                            <strong>Бонус за регистрацию:</strong> В Telegram канале вы можете зарегистрировать свой никнейм и получить 50 монет на баланс в игре!
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Кнопки навигации -->
+                <div class="button-container">
+                    <a href="voting.html" class="btn btn--secondary">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </a>
+                    <a href="rules.html" class="btn btn--primary">
+                        Вперед <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__content">
+                    <div class="footer__copyright">
+                        <p>&copy; 2025 <a href="../index.html">Zoobastiks Minecraft Server</a>. Все права защищены.</p>
+                        <p>Minecraft является торговой маркой Mojang Studios.</p>
+                    </div>
+                    <div class="footer__links">
+                        <a href="https://discord.gg/vEaCqQ7kXN" class="social-link" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                        <a href="https://t.me/ReZoobastik" class="social-link" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Шаблон для оповещений -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Скрипты приложения -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Показать тело после загрузки
+            document.body.style.opacity = 1;
+            
+            // Скрыть лоадер после загрузки контента
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = 0;
+                document.getElementById('app').style.opacity = 1;
+                
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 800);
+            
+            // Анимации при скролле
+            const animateElements = document.querySelectorAll('[data-animation="fade-in"]');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Фильтрация команд
+            const searchInput = document.getElementById('commandSearch');
+            const categoryTabs = document.getElementById('categoryTabs').querySelectorAll('.category-tab');
+            const commandItems = document.querySelectorAll('.command-item');
+            
+            // Фильтрация при вводе поиска
+            searchInput.addEventListener('input', filterCommands);
+            
+            // Фильтрация при клике на категорию
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Сбросить активные табы
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    filterCommands();
+                });
+            });
+            
+            function filterCommands() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const activeCategory = document.querySelector('.category-tab.active').dataset.category;
+                
+                commandItems.forEach(item => {
+                    const title = item.querySelector('.command-item__title').textContent.toLowerCase();
+                    const description = item.querySelector('.command-item__description').textContent.toLowerCase();
+                    const itemCategory = item.dataset.category;
+                    
+                    const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
+                    const matchesCategory = activeCategory === 'all' || itemCategory === activeCategory || (item.textContent.includes(activeCategory) && activeCategory !== 'all');
+                    
+                    if (matchesSearch && matchesCategory) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

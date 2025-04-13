@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0f">
+    <title>Zoobastiks - Minecraft Server 2025</title>
+    <meta name="description" content="Современный сервер Minecraft с уникальными возможностями и комьюнити">
+    
+    <!-- Preload критических ресурсов -->
+    <link rel="preload" href="css/dark-theme.css" as="style">
+    <link rel="preload" href="js/app.js" as="script" type="module">
+    <link rel="preload" href="Founts/Minecrafter-MA3Dw.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="icon/background_zoobastiks.jpg" as="image">
+    
+    <!-- Favicon и иконки -->
+    <link rel="icon" href="icon/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="icon/logo.png">
+    
+    <!-- Critical CSS inline для быстрой отрисовки -->
+    <style>
+        :root {
+            --primary: #5d4ff0;
+            --primary-light: #7e71ff;
+            --primary-dark: #4935d2;
+            --dark: #0a0a0f;
+            --darker: #050508;
+            --light: #e0e0f0;
+            --success: #18b566;
+            --error: #ef4444;
+            --warning: #eab308;
+        }
+        
+        @font-face {
+            font-family: 'Minecraft';
+            font-display: swap;
+            src: url('Founts/Minecrafter-MA3Dw.ttf') format('truetype');
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background-image: url('icon/background_zoobastiks.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--darker);
+            opacity: 0.85;
+            z-index: -1;
+        }
+        
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--darker);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .loader__cube {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(45deg);
+            animation: cube-spin 2s infinite linear;
+        }
+        
+        .loader__cube-face {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            opacity: 0.9;
+        }
+        
+        @keyframes cube-spin {
+            0% { transform: rotateX(-30deg) rotateY(0); }
+            100% { transform: rotateX(-30deg) rotateY(360deg); }
+        }
+        
+        #app {
+            min-height: 100vh;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+    
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="css/dark-theme.css">
+    <link rel="stylesheet" href="Style/server-status.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Лоадер -->
+    <div class="loader" id="loader">
+        <div class="loader__cube">
+            <div class="loader__cube-face" style="background: #5d4ff0; transform: translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #38b2ac; transform: rotateY(180deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #e05a00; transform: rotateY(90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #18b566; transform: rotateY(-90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #ef4444; transform: rotateX(90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #0ea5e9; transform: rotateX(-90deg) translateZ(30px);"></div>
+        </div>
+    </div>
+
+    <!-- Контейнер приложения -->
+    <div id="app">
+        <header class="header">
+            <div class="container">
+                <div class="header__content">
+                    <h1 class="header__title">Zoobastiks Minecraft</h1>
+                    <p class="header__subtitle">Выживание с элементами RPG</p>
+                </div>
+            </div>
+        </header>
+        
+        <nav class="navigation">
+            <div class="container">
+                <ul class="navigation__list">
+                    <li class="navigation__item"><a href="index.html" class="navigation__link navigation__link--active">Главная</a></li>
+                    <li class="navigation__item"><a href="pages/wiki.html" class="navigation__link">Вики</a></li>
+                    <li class="navigation__item"><a href="pages/voting.html" class="navigation__link">Голосование</a></li>
+                    <li class="navigation__item"><a href="pages/commands.html" class="navigation__link">Команды</a></li>
+                    <li class="navigation__item"><a href="pages/rules.html" class="navigation__link">Правила</a></li>
+                    <li class="navigation__item"><a href="pages/news.html" class="navigation__link">Новости</a></li>
+                    <li class="navigation__item"><a href="pages/help.html" class="navigation__link">Помощь</a></li>
+                    <li class="navigation__item"><a href="pages/plugins.html" class="navigation__link">Плагины</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <main class="main">
+            <div class="container">
+                <section class="hero">
+                    <div class="hero__content">
+                        <h2 class="hero__title">Добро пожаловать на сервер Zoobastiks!</h2>
+                        <p class="hero__description">Откройте для себя уникальный мир выживания с элементами RPG. Стройте, исследуйте, торгуйте и сражайтесь!</p>
+                        <div class="hero__buttons">
+                            <a href="#" class="btn btn--primary">Начать игру</a>
+                            <a href="pages/wiki.html" class="btn btn--secondary">Узнать больше</a>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Статус сервера -->
+                <section class="server-status-section">
+                    <div class="server-status" id="serverStatus">
+                        <div class="server-status__header">
+                            <i class="server-status__header-icon fas fa-server"></i>
+                            <h3 class="server-status__header-title">Статус сервера</h3>
+                            <button class="server-status__refresh-btn" id="refreshStatus" title="Обновить статус">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="server-status__content">
+                            <div class="server-status__server-info">
+                                <div class="server-status__row">
+                                    <span class="server-status__label">Адрес:</span>
+                                    <div class="server-status__value-container">
+                                        <span class="server-status__value server-status__address" id="serverAddress">
+                                            zoobastiks.20tps.name
+                                        </span>
+                                        <button class="server-status__copy-btn" data-copy-ip title="Скопировать IP">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="server-status__row">
+                                    <span class="server-status__label">Статус:</span>
+                                    <span class="server-status__value server-status__status-value" id="serverStatusIndicator">
+                                        <span class="server-status__indicator"></span>
+                                        <span id="statusText">Проверка...</span>
+                                    </span>
+                                </div>
+                                
+                                <div class="server-status__row">
+                                    <span class="server-status__label">Версия:</span>
+                                    <span class="server-status__value server-status__version-value" id="serverVersion">1.12.2 - 1.21.4</span>
+                                </div>
+                                
+                                <div class="server-status__row">
+                                    <span class="server-status__label">Игроки:</span>
+                                    <span class="server-status__value server-status__player-count" id="playerCount">0/0</span>
+                                </div>
+                            </div>
+                            
+                            <div class="server-status__player-info" id="playerInfo" style="display: none;">
+                                <h4 class="server-status__subtitle">Сейчас на сервере:</h4>
+                                <div class="server-status__player-list" id="playerList">
+                                    <!-- Список игроков будет добавлен через JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <div class="server-status__error-message" id="errorMessage" style="display: none;">
+                                Сервер временно недоступен
+                            </div>
+                            
+                            <div class="server-status__footer">
+                                <span class="server-status__last-refresh" id="lastRefresh">
+                                    Последнее обновление: --:--:--
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="server-status__notification" id="copyNotification">
+                            IP скопирован в буфер обмена
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Особенности сервера -->
+                <section class="features">
+                    <h2 class="section-title">Особенности сервера</h2>
+                    <div class="features__grid">
+                        <div class="feature-card">
+                            <div class="feature-card__icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="feature-card__title">Защита территории</h3>
+                            <p class="feature-card__description">Защитите свои постройки от гриферов с помощью встроенной системы защиты территорий.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-card__icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <h3 class="feature-card__title">Экономика</h3>
+                            <p class="feature-card__description">Развитая экономическая система с возможностью торговли и создания магазинов.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-card__icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3 class="feature-card__title">Кланы</h3>
+                            <p class="feature-card__description">Создавайте кланы, стройте совместные базы и участвуйте в клановых событиях.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-card__icon">
+                                <i class="fas fa-dragon"></i>
+                            </div>
+                            <h3 class="feature-card__title">Уникальные мобы</h3>
+                            <p class="feature-card__description">Встречайте новых мобов и боссов, которые разнообразят игровой процесс.</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Галерея скриншотов -->
+                <section class="gallery-section">
+                    <h2 class="section-title">Скриншоты сервера</h2>
+                    <div class="gallery">
+                        <div class="gallery__item">
+                            <img src="icon/spawn.png" alt="Спавн сервера" class="gallery__image">
+                        </div>
+                        <div class="gallery__item">
+                            <img src="icon/3.jpg" alt="Красивый вид" class="gallery__image">
+                        </div>
+                        <div class="gallery__item">
+                            <img src="icon/background_zoobastiks_2.jpg" alt="Пейзаж мира" class="gallery__image">
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__content">
+                    <div class="footer__copyright">
+                        <p>&copy; 2025 <a href="index.html">Zoobastiks</a>. Все права защищены.</p>
+                        <p>Minecraft является торговой маркой Mojang Studios.</p>
+                    </div>
+                    <div class="footer__links">
+                        <a href="https://discord.gg/vEaCqQ7kXN" class="social-link" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                        <a href="https://t.me/ReZoobastik" class="social-link" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Админ-панель (скрыта по умолчанию) -->
+    <div id="admin-panel" style="display: none;"></div>
+    
+    <!-- Шаблон для оповещений -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Скрипты приложения -->
+    <script type="module" src="js/app.js"></script>
+    
+    <!-- Инициализация -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Показать тело после загрузки
+            document.body.style.opacity = 1;
+            
+            // Скрыть лоадер после загрузки контента
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = 0;
+                document.getElementById('app').style.opacity = 1;
+                
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 1000);
+            
+            // Инициализация компонента статуса сервера
+            const serverStatus = document.getElementById('serverStatus');
+            if (serverStatus) {
+                // Настройка обработчиков событий для компонента
+                const refreshButton = document.getElementById('refreshStatus');
+                const copyButton = document.querySelector('.server-status__copy-btn');
+                const notification = document.getElementById('copyNotification');
+                
+                // Имитация обновления статуса сервера
+                function updateServerStatus() {
+                    const statusContainer = document.getElementById('serverStatus');
+                    const statusIndicator = document.getElementById('statusText');
+                    const playerCount = document.getElementById('playerCount');
+                    const playerInfo = document.getElementById('playerInfo');
+                    const errorMessage = document.getElementById('errorMessage');
+                    const lastRefresh = document.getElementById('lastRefresh');
+                    
+                    // Устанавливаем статус загрузки
+                    statusContainer.classList.remove('server-status--online', 'server-status--offline');
+                    statusContainer.classList.add('server-status--loading');
+                    
+                    // Имитируем задержку запроса
+                    setTimeout(() => {
+                        // Случайный статус для демонстрации
+                        const randomStatus = Math.random() > 0.3 ? 'online' : 'offline';
+                        
+                        // Обновляем время последнего обновления
+                        const now = new Date();
+                        lastRefresh.textContent = `Последнее обновление: ${now.toLocaleTimeString()}`;
+                        
+                        // Меняем статус
+                        statusContainer.classList.remove('server-status--loading');
+                        statusContainer.classList.add(`server-status--${randomStatus}`);
+                        
+                        if (randomStatus === 'online') {
+                            statusIndicator.textContent = 'Онлайн';
+                            const randomPlayers = Math.floor(Math.random() * 15);
+                            playerCount.textContent = `${randomPlayers}/30`;
+                            playerInfo.style.display = 'block';
+                            errorMessage.style.display = 'none';
+                            
+                            // Симулируем список игроков
+                            const playerList = document.getElementById('playerList');
+                            playerList.innerHTML = '';
+                            
+                            const playerNames = ['Steve', 'Alex', 'Zoobastik', 'Notch', 'Herobrine'];
+                            for (let i = 0; i < Math.min(randomPlayers, 5); i++) {
+                                const playerItem = document.createElement('div');
+                                playerItem.className = 'server-status__player-item';
+                                
+                                const playerAvatar = document.createElement('div');
+                                playerAvatar.className = 'server-status__player-avatar';
+                                playerAvatar.innerHTML = '<i class="fas fa-user"></i>';
+                                
+                                const playerName = document.createElement('div');
+                                playerName.className = 'server-status__player-name';
+                                playerName.textContent = playerNames[i];
+                                
+                                playerItem.appendChild(playerAvatar);
+                                playerItem.appendChild(playerName);
+                                playerList.appendChild(playerItem);
+                            }
+                        } else {
+                            statusIndicator.textContent = 'Оффлайн';
+                            playerInfo.style.display = 'none';
+                            errorMessage.style.display = 'block';
+                        }
+                    }, 1000);
+                }
+                
+                // Обработчик копирования IP
+                if (copyButton) {
+                    copyButton.addEventListener('click', () => {
+                        const serverIp = document.getElementById('serverAddress').textContent.trim();
+                        navigator.clipboard.writeText(serverIp)
+                            .then(() => {
+                                notification.classList.add('server-status__notification--visible');
+                                
+                                setTimeout(() => {
+                                    notification.classList.remove('server-status__notification--visible');
+                                }, 2000);
+                            })
+                            .catch(err => {
+                                console.error('Ошибка при копировании IP:', err);
+                            });
+                    });
+                }
+                
+                // Обработчик обновления статуса
+                if (refreshButton) {
+                    refreshButton.addEventListener('click', () => {
+                        // Добавляем вращение для иконки
+                        const icon = refreshButton.querySelector('i');
+                        if (icon) {
+                            icon.classList.add('server-status__spin');
+                            setTimeout(() => {
+                                icon.classList.remove('server-status__spin');
+                            }, 1000);
+                        }
+                        
+                        updateServerStatus();
+                    });
+                }
+                
+                // Начальное обновление статуса
+                updateServerStatus();
+            }
+            
+            // Анимации при скролле
+            const animateElements = document.querySelectorAll('.feature-card, .hero__title, .hero__description, .section-title');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+    
+    <style>
+        /* Дополнительные стили для галереи */
+        .gallery-section {
+            margin-bottom: 3rem;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .gallery__item {
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            height: 200px;
+        }
+        
+        .gallery__item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl), 0 0 15px rgba(93, 79, 240, 0.4);
+            border-color: var(--primary);
+        }
+        
+        .gallery__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        
+        .gallery__item:hover .gallery__image {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .gallery__item {
+                height: 150px;
+            }
+        }
+    </style>
+</body>
+</html> 

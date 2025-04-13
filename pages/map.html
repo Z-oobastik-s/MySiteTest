@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2c3e50">
+    <title>Карта сервера - Zoobastiks</title>
+    <meta name="description" content="Интерактивная карта сервера Zoobastiks. Исследуйте территории, найдите важные локации и ориентиры.">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../Style/dark-theme.css">
+    <link rel="icon" href="../img/favicon.ico" type="image/x-icon">
+    
+    <style>
+        .map-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background-color: var(--bg-card);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .map-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .map-header h1 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .map-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .map-iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .map-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .map-type {
+            padding: 1.5rem;
+            background-color: var(--bg-card-hover);
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .map-type:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .map-type h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .map-type p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .map-legend {
+            background-color: var(--bg-card-hover);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .map-legend h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .legend-text {
+            color: var(--text-secondary);
+        }
+        
+        .map-instructions {
+            background-color: var(--bg-card-hover);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .map-instructions h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .map-instructions ol {
+            color: var(--text-secondary);
+            margin-left: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .map-instructions li {
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .map-iframe {
+                height: 400px;
+            }
+            
+            .map-header h1 {
+                font-size: 2rem;
+            }
+            
+            .map-types {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>Zoobastiks Minecraft</h1>
+            <p>Выживание с элементами RPG</p>
+        </div>
+    </header>
+
+    <nav class="nav-container">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="../index.html">Главная</a></li>
+                <li><a href="wiki.html">Вики</a></li>
+                <li><a href="voting.html">Голосование</a></li>
+                <li><a href="commands.html">Команды</a></li>
+                <li><a href="rules.html">Правила</a></li>
+                <li><a href="help.html">Помощь</a></li>
+                <li><a href="map.html" class="active">Карта</a></li>
+                <li><a href="news.html">Новости</a></li>
+                <li><a href="plugins.html">Плагины</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="map-container">
+            <div class="map-header">
+                <h1>Интерактивная карта сервера</h1>
+                <p>Исследуйте мир Zoobastiks, найдите важные локации и изучите территории игроков</p>
+            </div>
+
+            <iframe class="map-iframe" src="https://example.com/map-embed" allowfullscreen></iframe>
+
+            <div class="map-types">
+                <div class="map-type">
+                    <h3>Поверхность</h3>
+                    <p>Стандартная карта поверхности мира. Показывает рельеф, постройки, растительность и территории игроков.</p>
+                </div>
+                <div class="map-type">
+                    <h3>Подземелье</h3>
+                    <p>Отображает подземные структуры, пещеры, шахты и другие важные подземные объекты.</p>
+                </div>
+                <div class="map-type">
+                    <h3>Территории</h3>
+                    <p>Визуализирует защищённые территории, отображая границы и владельцев регионов.</p>
+                </div>
+            </div>
+
+            <div class="map-legend">
+                <h3>Легенда карты</h3>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #4CAF50;"></div>
+                        <span class="legend-text">Защищённые территории</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #FFC107;"></div>
+                        <span class="legend-text">Торговые зоны</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #F44336;"></div>
+                        <span class="legend-text">PvP зоны</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #2196F3;"></div>
+                        <span class="legend-text">Важные локации</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #9C27B0;"></div>
+                        <span class="legend-text">Порталы и телепорты</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #FF5722;"></div>
+                        <span class="legend-text">Особые ресурсы</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-instructions">
+                <h3>Как пользоваться картой</h3>
+                <ol>
+                    <li>Используйте колесо мыши или кнопки +/- для изменения масштаба</li>
+                    <li>Кликните и перетащите для перемещения по карте</li>
+                    <li>Нажмите на маркер или территорию для получения дополнительной информации</li>
+                    <li>Переключайтесь между типами карт с помощью вкладок в верхней части</li>
+                    <li>Для поиска конкретного места используйте строку поиска</li>
+                </ol>
+            </div>
+        </div>
+    </main>
+
+    <div class="button-container">
+        <a href="../index.html" class="nav-button">Главная</a>
+        <a href="voting.html" class="nav-button">Голосование</a>
+        <a href="wiki.html" class="nav-button">Вики</a>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 <a href="../index.html">Zoobastiks</a>. Все права защищены. Minecraft является торговой маркой Mojang Studios.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Скрипт для взаимодействия с картой
+        document.addEventListener('DOMContentLoaded', function() {
+            // Здесь можно добавить интерактивность для карты
+            console.log('Карта загружена');
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,315 @@
+/* ==============================
+   Компонент ServerStatus 
+   ============================== */
+
+/* Основной контейнер */
+.server-status {
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 1rem 0;
+    background-color: var(--card-bg, #fff);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Стили в зависимости от статуса */
+.server-status[data-status="online"] {
+    border-left: 4px solid var(--online-color, #4CAF50);
+}
+
+.server-status[data-status="offline"] {
+    border-left: 4px solid var(--offline-color, #F44336);
+}
+
+.server-status[data-status="loading"] {
+    border-left: 4px solid var(--loading-color, #2196F3);
+}
+
+.server-status[data-status="error"] {
+    border-left: 4px solid var(--error-color, #FF9800);
+}
+
+/* Заголовок */
+.server-status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color, #eee);
+}
+
+.server-status-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-color, #333);
+}
+
+/* Действия */
+.server-status-actions {
+    display: flex;
+    align-items: center;
+}
+
+.refresh-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.refresh-button:hover {
+    background-color: var(--btn-hover-bg, #f0f0f0);
+}
+
+.refresh-button svg {
+    fill: var(--icon-color, #666);
+}
+
+/* Анимация обновления */
+.server-status[data-status="loading"] .refresh-button svg {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Адрес сервера */
+.server-address {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-family: 'Minecraft', monospace;
+    font-size: 0.9rem;
+}
+
+.server-address-label {
+    color: var(--text-secondary, #666);
+    margin-right: 6px;
+}
+
+.server-address-value {
+    color: var(--text-color, #333);
+    font-weight: bold;
+    margin-right: 6px;
+}
+
+.copy-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+    background-color: var(--btn-hover-bg, #f0f0f0);
+}
+
+.copy-button svg {
+    fill: var(--icon-color, #666);
+}
+
+/* Информация о статусе */
+.server-info {
+    margin-bottom: 12px;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.server-status[data-status="online"] .status-dot {
+    background-color: var(--online-color, #4CAF50);
+    box-shadow: 0 0 8px var(--online-color, #4CAF50);
+}
+
+.server-status[data-status="offline"] .status-dot {
+    background-color: var(--offline-color, #F44336);
+}
+
+.server-status[data-status="loading"] .status-dot {
+    background-color: var(--loading-color, #2196F3);
+    animation: pulse 1.5s infinite;
+}
+
+.server-status[data-status="error"] .status-dot {
+    background-color: var(--error-color, #FF9800);
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+.status-text {
+    font-weight: 600;
+    color: var(--text-color, #333);
+}
+
+/* Информация об игроках */
+.server-players {
+    margin-bottom: 12px;
+}
+
+.players-count {
+    margin-bottom: 6px;
+    color: var(--text-color, #333);
+}
+
+.players-list {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 8px;
+    padding-left: 16px;
+    border-left: 2px solid var(--border-color, #eee);
+}
+
+.player-item {
+    display: block;
+    padding: 3px 0;
+    font-family: 'Minecraft', monospace;
+    font-size: 0.9rem;
+    color: var(--text-color, #333);
+}
+
+.more-players {
+    font-style: italic;
+    color: var(--text-secondary, #666);
+    margin-top: 4px;
+    font-size: 0.85rem;
+}
+
+.no-players {
+    color: var(--text-secondary, #666);
+    font-style: italic;
+    font-size: 0.9rem;
+    padding: 4px 0;
+}
+
+.error-message {
+    color: var(--error-color, #FF9800);
+    font-style: italic;
+    font-size: 0.9rem;
+    padding: 4px 0;
+}
+
+/* Версия сервера */
+.server-version {
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    color: var(--text-color, #333);
+}
+
+.version-value {
+    font-family: 'Minecraft', monospace;
+    font-weight: 600;
+}
+
+/* Последнее обновление */
+.last-update {
+    font-size: 0.8rem;
+    color: var(--text-secondary, #666);
+    text-align: right;
+}
+
+/* Уведомление о копировании */
+.copy-notification {
+    position: absolute;
+    top: 20px;
+    right: -100%;
+    background-color: var(--notification-bg, rgba(0, 0, 0, 0.7));
+    color: var(--notification-text, white);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    transition: right 0.3s ease;
+    z-index: 10;
+}
+
+.copy-notification.show {
+    right: 20px;
+}
+
+/* Поддержка темной темы */
+@media (prefers-color-scheme: dark) {
+    .server-status {
+        --border-color: #333;
+        --card-bg: #1e1e1e;
+        --text-color: #e0e0e0;
+        --text-secondary: #aaa;
+        --btn-hover-bg: #333;
+        --icon-color: #aaa;
+        --online-color: #4CAF50;
+        --offline-color: #F44336;
+        --loading-color: #2196F3;
+        --error-color: #FF9800;
+        --notification-bg: rgba(255, 255, 255, 0.7);
+        --notification-text: #333;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.server-status-content {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Адаптивная верстка */
+@media (max-width: 768px) {
+    .server-status {
+        padding: 12px;
+    }
+    
+    .players-list {
+        max-height: 120px;
+    }
+}
+
+/* Стилизация скроллбара */
+.players-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.players-list::-webkit-scrollbar-track {
+    background: var(--card-bg, #f1f1f1);
+}
+
+.players-list::-webkit-scrollbar-thumb {
+    background: var(--border-color, #ddd);
+    border-radius: 3px;
+}
+
+.players-list::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary, #999);
+} 

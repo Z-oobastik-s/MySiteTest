@@ -1,0 +1,374 @@
+/**
+ * Стили для компонента статуса сервера Minecraft
+ * Тёмная тема с акцентами фиолетового цвета
+ */
+
+/* Основной контейнер */
+.server-status {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+  padding: 0;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  position: relative;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(31, 32, 53, 0.7);
+  transition: all 0.3s ease;
+}
+
+.server-status:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 10px rgba(93, 79, 240, 0.3);
+  transform: translateY(-3px);
+}
+
+/* Шапка компонента */
+.server-status__header {
+  background: linear-gradient(to right, rgba(28, 28, 42, 0.9), rgba(20, 20, 30, 0.9));
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(31, 32, 53, 0.7);
+}
+
+.server-status__header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, #5d4ff0, #4935d2);
+}
+
+.server-status__header-icon {
+  font-size: 1.5rem;
+  color: #5d4ff0;
+  margin-right: 0.75rem;
+}
+
+.server-status__header-title {
+  color: #e0e0f0;
+  font-size: 1.5rem;
+  margin: 0;
+  letter-spacing: 0.5px;
+  flex-grow: 1;
+}
+
+.server-status__refresh-btn {
+  background: none;
+  border: none;
+  color: #a9adc6;
+  font-size: 1.25rem;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.server-status__refresh-btn:hover {
+  color: #e0e0f0;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(15deg);
+}
+
+/* Контент компонента */
+.server-status__content {
+  padding: 1.5rem;
+  position: relative;
+}
+
+/* Информация о сервере */
+.server-status__server-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.server-status__row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.server-status__label {
+  color: #a9adc6;
+  font-size: 0.9rem;
+  min-width: 80px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.server-status__value {
+  color: #e0e0f0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.server-status__value-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.server-status__address {
+  color: #7e71ff;
+  font-weight: 700;
+  background: rgba(93, 79, 240, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-family: monospace;
+  font-size: 0.95rem;
+}
+
+.server-status__copy-btn {
+  background: none;
+  border: none;
+  color: #a9adc6;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.server-status__copy-btn:hover {
+  color: #e0e0f0;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.server-status__status-value {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.server-status__indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #a9adc6;
+  transition: all 0.3s ease;
+}
+
+/* Информация об игроках */
+.server-status__player-info {
+  margin-top: 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(31, 32, 53, 0.7);
+}
+
+.server-status__subtitle {
+  color: #e0e0f0;
+  font-size: 1.1rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.server-status__subtitle::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  background: #5d4ff0;
+  border-radius: 3px;
+}
+
+.server-status__player-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.server-status__player-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.server-status__player-item:hover {
+  background: rgba(93, 79, 240, 0.1);
+}
+
+.server-status__player-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a9adc6;
+  font-size: 1rem;
+}
+
+.server-status__player-name {
+  color: #e0e0f0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.server-status__empty-list {
+  color: #a9adc6;
+  font-style: italic;
+  text-align: center;
+  padding: 0.75rem;
+}
+
+/* Подвал компонента */
+.server-status__footer {
+  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(31, 32, 53, 0.7);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.server-status__last-refresh {
+  font-size: 0.8rem;
+  color: #70748c;
+  font-style: italic;
+}
+
+/* Уведомление копирования */
+.server-status__notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(93, 79, 240, 0.9);
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.4rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.server-status__notification--visible {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+/* Сообщение об ошибке */
+.server-status__error-message {
+  padding: 1rem;
+  color: #e0e0f0;
+  font-size: 1rem;
+  text-align: center;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+/* Состояния компонента */
+.server-status--online .server-status__indicator {
+  background-color: #20d278;
+  box-shadow: 0 0 10px rgba(32, 210, 120, 0.5);
+}
+
+.server-status--offline .server-status__indicator {
+  background-color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.server-status--error .server-status__indicator {
+  background-color: #eab308;
+  box-shadow: 0 0 10px rgba(234, 179, 8, 0.5);
+}
+
+.server-status--loading .server-status__indicator {
+  background-color: #0ea5e9;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+  animation: pulse 1.5s infinite;
+}
+
+/* Анимация загрузки */
+@keyframes pulse {
+  0% { opacity: 0.5; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.server-status__spin {
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .server-status__header {
+    padding: 1rem;
+  }
+  
+  .server-status__header-title {
+    font-size: 1.25rem;
+  }
+  
+  .server-status__content {
+    padding: 1.25rem;
+  }
+  
+  .server-status__player-list {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .server-status__player-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .server-status__row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .server-status__label {
+    min-width: auto;
+  }
+  
+  .server-status__notification {
+    left: 20px;
+    right: 20px;
+    text-align: center;
+  }
+} 

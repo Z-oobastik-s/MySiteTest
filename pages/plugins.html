@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0f">
+    <title>Плагины - Zoobastiks Minecraft Server</title>
+    <meta name="description" content="Список плагинов, установленных на сервере Zoobastiks Minecraft. Узнайте о функциональности и возможностях, которые предоставляют плагины.">
+    
+    <!-- Preload критических ресурсов -->
+    <link rel="preload" href="../css/dark-theme.css" as="style">
+    <link rel="preload" href="../js/app.js" as="script">
+    <link rel="preload" href="../Founts/Minecrafter-MA3Dw.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="../icon/background_zoobastiks.jpg" as="image">
+    
+    <!-- Favicon и иконки -->
+    <link rel="icon" href="../icon/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="../icon/logo.png">
+    
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Специфичные стили для страницы плагинов */
+        .plugins-container {
+            margin-top: 2rem;
+        }
+        
+        .plugins-category {
+            background: rgba(15, 15, 20, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(93, 79, 240, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .plugins-category.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .plugins-category:hover {
+            border-color: rgba(93, 79, 240, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 10px rgba(93, 79, 240, 0.2);
+        }
+        
+        .plugins-category__title {
+            color: var(--primary-light);
+            margin-bottom: 1.5rem;
+            font-family: 'Minecraft', sans-serif;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(93, 79, 240, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        .plugins-category__title i {
+            margin-right: 0.75rem;
+            color: var(--primary);
+        }
+        
+        .plugins-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .plugin-card {
+            background: rgba(30, 30, 45, 0.7);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(93, 79, 240, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .plugin-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(93, 79, 240, 0.4);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 8px rgba(93, 79, 240, 0.2);
+        }
+        
+        .plugin-card__title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .plugin-card__title i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .plugin-card__description {
+            margin-bottom: 1.25rem;
+            flex-grow: 1;
+        }
+        
+        .plugin-card__features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .plugin-card__feature {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .plugin-card__feature:last-child {
+            margin-bottom: 0;
+        }
+        
+        .plugin-card__feature i {
+            color: var(--success);
+            margin-right: 0.5rem;
+            margin-top: 0.25rem;
+            font-size: 0.75rem;
+        }
+        
+        .plugins-toc {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        
+        .plugins-toc__item {
+            padding: 0.5rem 1rem;
+            background: rgba(30, 30, 45, 0.7);
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: var(--light);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(93, 79, 240, 0.2);
+        }
+        
+        .plugins-toc__item:hover, .plugins-toc__item:focus {
+            background: rgba(93, 79, 240, 0.2);
+            border-color: rgba(93, 79, 240, 0.5);
+            transform: translateY(-2px);
+            color: var(--primary-light);
+        }
+        
+        .plugins-toc__item i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .plugins-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .plugins-toc {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Лоадер -->
+    <div class="loader" id="loader">
+        <div class="loader__cube">
+            <div class="loader__cube-face" style="background: #5d4ff0; transform: translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #38b2ac; transform: rotateY(180deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #e05a00; transform: rotateY(90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #18b566; transform: rotateY(-90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #ef4444; transform: rotateX(90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #0ea5e9; transform: rotateX(-90deg) translateZ(30px);"></div>
+        </div>
+    </div>
+
+    <!-- Контейнер приложения -->
+    <div id="app">
+        <header class="header">
+            <div class="container">
+                <div class="header__content">
+                    <h1 class="header__title">Zoobastiks Minecraft</h1>
+                    <p class="header__subtitle">Плагины сервера</p>
+                </div>
+            </div>
+        </header>
+        
+        <nav class="navigation">
+            <div class="container">
+                <ul class="navigation__list">
+                    <li class="navigation__item"><a href="../index.html" class="navigation__link">Главная</a></li>
+                    <li class="navigation__item"><a href="wiki.html" class="navigation__link">Вики</a></li>
+                    <li class="navigation__item"><a href="voting.html" class="navigation__link">Голосование</a></li>
+                    <li class="navigation__item"><a href="commands.html" class="navigation__link">Команды</a></li>
+                    <li class="navigation__item"><a href="rules.html" class="navigation__link">Правила</a></li>
+                    <li class="navigation__item"><a href="news.html" class="navigation__link">Новости</a></li>
+                    <li class="navigation__item"><a href="help.html" class="navigation__link">Помощь</a></li>
+                    <li class="navigation__item"><a href="plugins.html" class="navigation__link navigation__link--active">Плагины</a></li>
+                    <li class="navigation__item"><a href="https://t.me/ReZoobastik" class="navigation__link">Телеграм</a></li>
+                    <li class="navigation__item"><a href="../admin/index.html" class="navigation__link">☣︎</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <main class="main">
+            <div class="container">
+                <section class="plugins-container">
+                    <h2 class="section-title">Плагины сервера</h2>
+                    <p class="section-description">На нашем сервере установлено множество плагинов, каждый из которых добавляет уникальные возможности и улучшения игрового процесса. Ниже представлен список основных плагинов по категориям.</p>
+                    
+                    <!-- Содержание (TOC) -->
+                    <div class="plugins-toc">
+                        <a href="#protection" class="plugins-toc__item"><i class="fas fa-shield-alt"></i>Защита территории</a>
+                        <a href="#economy" class="plugins-toc__item"><i class="fas fa-coins"></i>Экономика и торговля</a>
+                        <a href="#enhancement" class="plugins-toc__item"><i class="fas fa-cogs"></i>Улучшение геймплея</a>
+                        <a href="#utilities" class="plugins-toc__item"><i class="fas fa-tools"></i>Дополнительные возможности</a>
+                    </div>
+                    
+                    <!-- Секция: Защита территории -->
+                    <div id="protection" class="plugins-category">
+                        <h3 class="plugins-category__title"><i class="fas fa-shield-alt"></i>Защита территории</h3>
+                        <div class="plugins-list">
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-flag"></i>GriefPrevention</h4>
+                                <p class="plugin-card__description">Позволяет игрокам создавать защищенные приваты для своих построек, предотвращая кражи и разрушения.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Создание приватов с помощью золотой лопаты</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Настройка доступа для других игроков</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Защита от огня и взрывов</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Расширение территории с игровым прогрессом</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-lock"></i>LWC</h4>
+                                <p class="plugin-card__description">Плагин для защиты отдельных блоков, таких как сундуки, печи, двери и другие интерактивные блоки.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Приватные сундуки и другие контейнеры</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Пароли для доступа к заблокированным блокам</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Публичный доступ с ограничениями</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Защита механизмов от посторонних</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-user-shield"></i>WorldGuard</h4>
+                                <p class="plugin-card__description">Позволяет администраторам создавать защищенные регионы и устанавливать правила для различных территорий.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Глобальные и локальные флаги для регионов</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Безопасные зоны спавна</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Защита от различных типов урона</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>PvP и другие настройки игровых механик</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Секция: Экономика и торговля -->
+                    <div id="economy" class="plugins-category">
+                        <h3 class="plugins-category__title"><i class="fas fa-coins"></i>Экономика и торговля</h3>
+                        <div class="plugins-list">
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-money-bill-wave"></i>Vault</h4>
+                                <p class="plugin-card__description">Базовый плагин для экономики, который обеспечивает работу других плагинов с валютой сервера.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Интеграция с другими экономическими плагинами</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Единая валютная система</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Поддержка транзакций между игроками</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>API для работы с экономикой</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-store"></i>ShopGUI+</h4>
+                                <p class="plugin-card__description">Удобный магазин с графическим интерфейсом, где игроки могут покупать и продавать различные предметы.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Интуитивный интерфейс магазина</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Динамические цены на предметы</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Категории товаров для удобства</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Поиск предметов в магазине</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-shopping-cart"></i>QuickShop</h4>
+                                <p class="plugin-card__description">Позволяет игрокам создавать собственные магазины для продажи предметов другим игрокам.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Создание магазинов с помощью табличек</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Пополнение товаров в магазинах</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Настройка цен для своих товаров</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Защита магазинов от краж</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-briefcase"></i>Jobs Reborn</h4>
+                                <p class="plugin-card__description">Система профессий, позволяющая игрокам зарабатывать деньги, выполняя различные действия в игре.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Разнообразные профессии (шахтер, лесоруб, фермер и др.)</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Повышение уровня навыков</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Бонусы за достижение определенных уровней</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Возможность работать в нескольких профессиях</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Секция: Улучшение геймплея -->
+                    <div id="enhancement" class="plugins-category">
+                        <h3 class="plugins-category__title"><i class="fas fa-cogs"></i>Улучшение геймплея</h3>
+                        <div class="plugins-list">
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-bed"></i>EssentialsX</h4>
+                                <p class="plugin-card__description">Набор основных команд и функций, необходимых для комфортной игры на сервере.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Телепортация, дома и варпы</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Личные сообщения и каналы чата</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Команды для управления инвентарем</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Настройка погоды и времени</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-backpack"></i>Backpack</h4>
+                                <p class="plugin-card__description">Добавляет возможность иметь дополнительный инвентарь для хранения предметов.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Дополнительное место для хранения</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Разные размеры рюкзаков</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Возможность улучшения рюкзака</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Сохранение содержимого при смерти</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-magic"></i>mcMMO</h4>
+                                <p class="plugin-card__description">Добавляет RPG-элементы в игру, позволяя игрокам прокачивать различные навыки.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Прокачка навыков (рубка, копание, бой и т.д.)</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Специальные способности для каждого навыка</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Бонусы к добыче ресурсов</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Рейтинг игроков по навыкам</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-home"></i>OneBlock</h4>
+                                <p class="plugin-card__description">Режим игры, где вы начинаете с одного блока и постепенно расширяете свой остров.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Фазы развития острова</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Случайная генерация ресурсов</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Уникальные дропы и мобы</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Достижения и прогресс</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Секция: Дополнительные возможности -->
+                    <div id="utilities" class="plugins-category">
+                        <h3 class="plugins-category__title"><i class="fas fa-tools"></i>Дополнительные возможности</h3>
+                        <div class="plugins-list">
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-vote-yea"></i>VotingPlugin</h4>
+                                <p class="plugin-card__description">Позволяет игрокам голосовать за сервер на различных площадках и получать за это награды.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Интеграция с популярными сайтами голосования</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Автоматическая выдача наград</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Статистика голосования</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Ежемесячные топы голосующих</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-comment-alt"></i>DiscordSRV</h4>
+                                <p class="plugin-card__description">Интеграция сервера с Discord, синхронизация чата и уведомления о важных событиях.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Связь игрового чата с Discord</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Уведомления о входе/выходе игроков</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Статус сервера в Discord</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Команды сервера через Discord</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-map"></i>Dynmap</h4>
+                                <p class="plugin-card__description">Интерактивная карта мира сервера, доступная через веб-браузер.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Карта всех миров сервера</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Отображение игроков на карте</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Маркеры и варпы на карте</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Чат интегрированный с картой</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plugin-card">
+                                <h4 class="plugin-card__title"><i class="fas fa-chart-line"></i>Plan</h4>
+                                <p class="plugin-card__description">Подробная статистика сервера и отдельных игроков, доступная через веб-интерфейс.</p>
+                                <ul class="plugin-card__features">
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Статистика игрового времени</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Графики активности сервера</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Детальная информация о каждом игроке</li>
+                                    <li class="plugin-card__feature"><i class="fas fa-check"></i>Анализ производительности сервера</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__content">
+                    <p class="footer__text">
+                        <a href="../index.html" class="footer__link">Zoobastiks Minecraft</a> &copy; 2023-2024 Все права защищены<br>
+                        Minecraft является товарным знаком Mojang Studios
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Скрипты -->
+    <script src="../js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Анимация появления секций при прокрутке
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.plugins-category').forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Плавная прокрутка к якорям
+            document.querySelectorAll('.plugins-toc__item').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

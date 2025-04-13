@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0f">
+    <title>Новости - Zoobastiks Minecraft Server</title>
+    <meta name="description" content="Последние новости и обновления сервера Zoobastiks Minecraft. Будьте в курсе всех изменений!">
+    
+    <!-- Preload критических ресурсов -->
+    <link rel="preload" href="../css/dark-theme.css" as="style">
+    <link rel="preload" href="../js/app.js" as="script">
+    <link rel="preload" href="../Founts/Minecrafter-MA3Dw.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="../icon/background_zoobastiks.jpg" as="image">
+    
+    <!-- Favicon и иконки -->
+    <link rel="icon" href="../icon/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="../icon/logo.png">
+    
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Специфичные стили для страницы новостей */
+        .news-container {
+            margin-top: 2rem;
+        }
+        
+        .news-card {
+            background: rgba(15, 15, 20, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(93, 79, 240, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .news-card.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .news-card:hover {
+            border-color: rgba(93, 79, 240, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 10px rgba(93, 79, 240, 0.2);
+        }
+        
+        .news-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(93, 79, 240, 0.3);
+            padding-bottom: 1rem;
+        }
+        
+        .news-card__title {
+            font-size: 1.5rem;
+            color: var(--primary-light);
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .news-card__title i {
+            margin-right: 0.75rem;
+            color: var(--primary);
+        }
+        
+        .news-card__date {
+            font-size: 0.875rem;
+            color: rgba(224, 224, 240, 0.6);
+            background: rgba(93, 79, 240, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+        
+        .news-card__content {
+            line-height: 1.6;
+        }
+        
+        .news-card__content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .news-card__image {
+            width: 100%;
+            height: auto;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .news-card__footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(93, 79, 240, 0.3);
+        }
+        
+        .news-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+        }
+        
+        .news-tag--update {
+            background-color: rgba(24, 181, 102, 0.2);
+            color: #47d896;
+            border: 1px solid rgba(24, 181, 102, 0.3);
+        }
+        
+        .news-tag--event {
+            background-color: rgba(93, 79, 240, 0.2);
+            color: #7e71ff;
+            border: 1px solid rgba(93, 79, 240, 0.3);
+        }
+        
+        .news-tag--important {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #ff7b7b;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .news-tag--feature {
+            background-color: rgba(14, 165, 233, 0.2);
+            color: #62ddff;
+            border: 1px solid rgba(14, 165, 233, 0.3);
+        }
+        
+        .news-archive-link {
+            margin-top: 1rem;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            color: var(--light);
+            padding: 0.75rem 1.5rem;
+            background: rgba(93, 79, 240, 0.2);
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(93, 79, 240, 0.3);
+        }
+        
+        .news-archive-link:hover {
+            background: rgba(93, 79, 240, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-color: rgba(93, 79, 240, 0.5);
+        }
+        
+        .news-archive-link i {
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .news-card__header {
+                flex-direction: column;
+            }
+            
+            .news-card__date {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Лоадер -->
+    <div class="loader" id="loader">
+        <div class="loader__cube">
+            <div class="loader__cube-face" style="background: #5d4ff0; transform: translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #38b2ac; transform: rotateY(180deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #e05a00; transform: rotateY(90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #18b566; transform: rotateY(-90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #ef4444; transform: rotateX(90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #0ea5e9; transform: rotateX(-90deg) translateZ(30px);"></div>
+        </div>
+    </div>
+
+    <!-- Контейнер приложения -->
+    <div id="app">
+        <header class="header">
+            <div class="container">
+                <div class="header__content">
+                    <h1 class="header__title">Zoobastiks Minecraft</h1>
+                    <p class="header__subtitle">Новости сервера</p>
+                </div>
+            </div>
+        </header>
+        
+        <nav class="navigation">
+            <div class="container">
+                <ul class="navigation__list">
+                    <li class="navigation__item"><a href="../index.html" class="navigation__link">Главная</a></li>
+                    <li class="navigation__item"><a href="wiki.html" class="navigation__link">Вики</a></li>
+                    <li class="navigation__item"><a href="voting.html" class="navigation__link">Голосование</a></li>
+                    <li class="navigation__item"><a href="commands.html" class="navigation__link">Команды</a></li>
+                    <li class="navigation__item"><a href="rules.html" class="navigation__link">Правила</a></li>
+                    <li class="navigation__item"><a href="news.html" class="navigation__link navigation__link--active">Новости</a></li>
+                    <li class="navigation__item"><a href="help.html" class="navigation__link">Помощь</a></li>
+                    <li class="navigation__item"><a href="plugins.html" class="navigation__link">Плагины</a></li>
+                    <li class="navigation__item"><a href="https://t.me/ReZoobastik" class="navigation__link">Телеграм</a></li>
+                    <li class="navigation__item"><a href="../admin/index.html" class="navigation__link">☣︎</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <main class="main">
+            <div class="container">
+                <section class="hero">
+                    <div class="hero__content">
+                        <h2 class="hero__title">Новости и обновления</h2>
+                        <p class="hero__description">Будьте в курсе последних изменений на сервере Zoobastiks Minecraft</p>
+                    </div>
+                </section>
+                
+                <div class="news-container">
+                    <article class="news-card" data-animation="fade-in">
+                        <div class="news-card__header">
+                            <h3 class="news-card__title"><i class="fas fa-book"></i> Обновлен раздел в магазине</h3>
+                            <span class="news-card__date">15 июня 2025</span>
+                        </div>
+                        <div class="news-card__content">
+                            <p>Добавлен новый раздел в магазин "Книги". Теперь вы можете приобрести любую зачарованную книгу для улучшения своего снаряжения.</p>
+                            <img src="../icon/enchant_book.png" alt="Зачарованные книги" class="news-card__image">
+                            <p>В новом разделе доступны все виды зачарований, включая редкие и уникальные. Цены варьируются в зависимости от редкости и полезности зачарования.</p>
+                        </div>
+                        <div class="news-card__footer">
+                            <div>
+                                <span class="news-tag news-tag--update">Обновление</span>
+                                <span class="news-tag news-tag--feature">Новая функция</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="news-card" data-animation="fade-in">
+                        <div class="news-card__header">
+                            <h3 class="news-card__title"><i class="fas fa-exchange-alt"></i> Обновлена команда /hub</h3>
+                            <span class="news-card__date">10 июня 2025</span>
+                        </div>
+                        <div class="news-card__content">
+                            <p>Мы улучшили функциональность команды <code>/hub</code> для более удобного перемещения между мирами сервера. Также на спавне появился новый NPC "Выбор сервера", который позволяет легко переключаться между режимами игры.</p>
+                            <img src="../icon/3.jpg" alt="Спавн сервера" class="news-card__image">
+                            <p>Теперь вы можете в любой момент переключиться между режимом ОдинБлок и обычным выживанием без необходимости использовать дополнительные команды.</p>
+                        </div>
+                        <div class="news-card__footer">
+                            <div>
+                                <span class="news-tag news-tag--update">Обновление</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="news-card" data-animation="fade-in">
+                        <div class="news-card__header">
+                            <h3 class="news-card__title"><i class="fas fa-globe"></i> Добавлен режим обычного выживания</h3>
+                            <span class="news-card__date">5 июня 2025</span>
+                        </div>
+                        <div class="news-card__content">
+                            <p>Мы рады сообщить о запуске нового режима игры - классическое выживание в открытом мире! Теперь у вас есть возможность играть не только в режиме ОдинБлок, но и исследовать бескрайние просторы обычного мира Minecraft.</p>
+                            <img src="../icon/background_zoobastiks_2.jpg" alt="Мир выживания" class="news-card__image">
+                            <p>В этом режиме вы можете путешествовать между измерениями (обычный мир, Нижний мир, Край), строить грандиозные сооружения и наслаждаться классическим геймплеем.</p>
+                            <p>Наслаждайтесь, и приятной игры! 😊</p>
+                        </div>
+                        <div class="news-card__footer">
+                            <div>
+                                <span class="news-tag news-tag--important">Важное</span>
+                                <span class="news-tag news-tag--feature">Новый режим</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                
+                <!-- Кнопки навигации -->
+                <div class="button-container">
+                    <a href="rules.html" class="btn btn--secondary">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </a>
+                    <a href="help.html" class="btn btn--primary">
+                        Вперед <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__content">
+                    <div class="footer__copyright">
+                        <p>&copy; 2025 <a href="../index.html">Zoobastiks Minecraft Server</a>. Все права защищены.</p>
+                        <p>Minecraft является торговой маркой Mojang Studios.</p>
+                    </div>
+                    <div class="footer__links">
+                        <a href="https://discord.gg/vEaCqQ7kXN" class="social-link" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                        <a href="https://t.me/ReZoobastik" class="social-link" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Шаблон для оповещений -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Скрипты приложения -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Показать тело после загрузки
+            document.body.style.opacity = 1;
+            
+            // Скрыть лоадер после загрузки контента
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = 0;
+                document.getElementById('app').style.opacity = 1;
+                
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 800);
+            
+            // Анимации при скролле
+            const animateElements = document.querySelectorAll('[data-animation="fade-in"]');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html> 

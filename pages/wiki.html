@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0f">
+    <title>Вики - Zoobastiks Minecraft Server</title>
+    <meta name="description" content="Подробная информация о возможностях сервера Zoobastiks Minecraft, гайды и советы по игре">
+    
+    <!-- Preload критических ресурсов -->
+    <link rel="preload" href="../css/dark-theme.css" as="style">
+    <link rel="preload" href="../js/app.js" as="script">
+    <link rel="preload" href="../Founts/Minecrafter-MA3Dw.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="../icon/background_zoobastiks.jpg" as="image">
+    
+    <!-- Favicon и иконки -->
+    <link rel="icon" href="../icon/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="../icon/logo.png">
+    
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Специфичные стили для wiki */
+        .wiki-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .wiki-section {
+            background: rgba(15, 15, 20, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(93, 79, 240, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .wiki-section.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .wiki-section:hover {
+            border-color: rgba(93, 79, 240, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 10px rgba(93, 79, 240, 0.2);
+        }
+        
+        .wiki-section__title {
+            color: var(--primary-light);
+            margin-bottom: 1.5rem;
+            font-family: 'Minecraft', sans-serif;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(93, 79, 240, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        .wiki-section__title i {
+            margin-right: 0.75rem;
+            color: var(--primary);
+        }
+        
+        .wiki-content {
+            line-height: 1.7;
+        }
+        
+        .wiki-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .job-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .job-card {
+            background: rgba(20, 20, 30, 0.7);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            border: 1px solid rgba(93, 79, 240, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .job-card:hover {
+            border-color: rgba(93, 79, 240, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 8px rgba(93, 79, 240, 0.3);
+        }
+        
+        .job-card__title {
+            color: var(--primary-light);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .job-card__title i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .job-card__description {
+            color: var(--light);
+            font-size: 0.95rem;
+        }
+        
+        .progress-steps {
+            margin-top: 1.5rem;
+            border-left: 2px solid var(--primary);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .progress-step {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .progress-step:before {
+            content: '';
+            position: absolute;
+            left: -1.65rem;
+            top: 0.35rem;
+            width: 0.75rem;
+            height: 0.75rem;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+        
+        .progress-step__title {
+            font-weight: 600;
+            color: var(--primary-light);
+            margin-bottom: 0.5rem;
+        }
+        
+        .world-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .world-mode {
+            background: rgba(20, 20, 30, 0.7);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(93, 79, 240, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .world-mode:hover {
+            border-color: rgba(93, 79, 240, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 8px rgba(93, 79, 240, 0.3);
+        }
+        
+        .world-mode__image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .world-mode__title {
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .world-mode__description {
+            flex-grow: 1;
+            color: var(--light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .wiki-note {
+            background: rgba(24, 181, 102, 0.1);
+            border-left: 3px solid var(--success);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        .wiki-warning {
+            background: rgba(235, 173, 8, 0.1);
+            border-left: 3px solid var(--warning);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .wiki-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .job-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .world-modes {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Лоадер -->
+    <div class="loader" id="loader">
+        <div class="loader__cube">
+            <div class="loader__cube-face" style="background: #5d4ff0; transform: translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #38b2ac; transform: rotateY(180deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #e05a00; transform: rotateY(90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #18b566; transform: rotateY(-90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #ef4444; transform: rotateX(90deg) translateZ(30px);"></div>
+            <div class="loader__cube-face" style="background: #0ea5e9; transform: rotateX(-90deg) translateZ(30px);"></div>
+        </div>
+    </div>
+
+    <!-- Контейнер приложения -->
+    <div id="app">
+        <header class="header">
+            <div class="container">
+                <div class="header__content">
+                    <h1 class="header__title">Zoobastiks Minecraft</h1>
+                    <p class="header__subtitle">Вики сервера</p>
+                </div>
+            </div>
+        </header>
+        
+        <nav class="navigation">
+            <div class="container">
+                <ul class="navigation__list">
+                    <li class="navigation__item"><a href="../index.html" class="navigation__link">Главная</a></li>
+                    <li class="navigation__item"><a href="wiki.html" class="navigation__link navigation__link--active">Вики</a></li>
+                    <li class="navigation__item"><a href="voting.html" class="navigation__link">Голосование</a></li>
+                    <li class="navigation__item"><a href="commands.html" class="navigation__link">Команды</a></li>
+                    <li class="navigation__item"><a href="rules.html" class="navigation__link">Правила</a></li>
+                    <li class="navigation__item"><a href="news.html" class="navigation__link">Новости</a></li>
+                    <li class="navigation__item"><a href="help.html" class="navigation__link">Помощь</a></li>
+                    <li class="navigation__item"><a href="plugins.html" class="navigation__link">Плагины</a></li>
+                    <li class="navigation__item"><a href="https://t.me/ReZoobastik" class="navigation__link">Телеграм</a></li>
+                    <li class="navigation__item"><a href="../admin/index.html" class="navigation__link">☣︎</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <main class="main">
+            <div class="container">
+                <section class="hero">
+                    <div class="hero__content">
+                        <h2 class="hero__title">Вики сервера Zoobastiks</h2>
+                        <p class="hero__description">Здесь вы найдете всю необходимую информацию о возможностях и особенностях нашего сервера</p>
+                    </div>
+                </section>
+                
+                <div class="wiki-container">
+                    <section class="wiki-section" data-animation="fade-in">
+                        <h3 class="wiki-section__title"><i class="fas fa-compass"></i> О сервере</h3>
+                        <div class="wiki-content">
+                            <p>Сервер <strong>Zoobastiks Minecraft</strong> предлагает уникальное сочетание классического выживания и режима ОдинБлок. Текущая поддерживаемая версия - <strong>1.21.4</strong>.</p>
+                            
+                            <p>На сервере вы найдете:</p>
+                            <ul>
+                                <li>Лобби со спавном, где находятся полезные NPC</li>
+                                <li>Систему работ для заработка внутриигровой валюты</li>
+                                <li>Уникальный режим ОдинБлок с фазами развития</li>
+                                <li>Интеграцию с Telegram и Discord</li>
+                                <li>Систему защиты территорий</li>
+                                <li>Множество пользовательских команд</li>
+                                <li>Экономику и аукционы</li>
+                            </ul>
+                        </div>
+                    </section>
+                    
+                    <section class="wiki-section" data-animation="fade-in">
+                        <h3 class="wiki-section__title"><i class="fas fa-briefcase"></i> Система работ</h3>
+                        <div class="wiki-content">
+                            <p>На спавне вы найдете NPC "Работы", взаимодействуя с которым можно выбрать профессию для заработка монет. Также можно использовать команду <code>/jobs</code>.</p>
+                            
+                            <div class="job-list">
+                                <div class="job-card">
+                                    <h4 class="job-card__title"><i class="fas fa-paw"></i> Повелитель дикой природы</h4>
+                                    <p class="job-card__description">Зарабатывайте монеты, охотясь на пассивных животных. За убийство мирных мобов вы получаете деньги.</p>
+                                </div>
+                                
+                                <div class="job-card">
+                                    <h4 class="job-card__title"><i class="fas fa-magic"></i> Маг рун и чар</h4>
+                                    <p class="job-card__description">Получайте монеты за зачарование предметов на зачарованном столе.</p>
+                                </div>
+                                
+                                <div class="job-card">
+                                    <h4 class="job-card__title"><i class="fas fa-tree"></i> Легендарный дровосек</h4>
+                                    <p class="job-card__description">Рубите деревья и получайте монеты за каждое срубленное дерево.</p>
+                                </div>
+                                
+                                <div class="job-card">
+                                    <h4 class="job-card__title"><i class="fas fa-gem"></i> КриптоШахтёр</h4>
+                                    <p class="job-card__description">Добывайте руду любых типов и получайте за это монеты.</p>
+                                </div>
+                                
+                                <div class="job-card">
+                                    <h4 class="job-card__title"><i class="fas fa-hammer"></i> Главный строитель</h4>
+                                    <p class="job-card__description">Зарабатывайте монеты за установку блоков - стройте и богатейте.</p>
+                                </div>
+                                
+                                <div class="job-card">
+                                    <h4 class="job-card__title"><i class="fas fa-mountain"></i> Раскопщик</h4>
+                                    <p class="job-card__description">Копайте землю и получайте монеты за каждый выкопанный слой.</p>
+                                </div>
+                                
+                                <div class="job-card">
+                                    <h4 class="job-card__title"><i class="fas fa-tools"></i> Мастер крафта</h4>
+                                    <p class="job-card__description">Создавайте предметы и получайте монеты за каждый скрафченный предмет.</p>
+                                </div>
+                                
+                                <div class="job-card">
+                                    <h4 class="job-card__title"><i class="fas fa-fish"></i> Удочник</h4>
+                                    <p class="job-card__description">Ловите рыбу и получайте монеты за каждый улов.</p>
+                                </div>
+                                
+                                <div class="job-card">
+                                    <h4 class="job-card__title"><i class="fas fa-wrench"></i> Инженер починки</h4>
+                                    <p class="job-card__description">Ремонтируйте свои инструменты и снаряжение, зарабатывая монеты.</p>
+                                </div>
+                                
+                                <div class="job-card">
+                                    <h4 class="job-card__title"><i class="fas fa-skull"></i> Беспощадный воин</h4>
+                                    <p class="job-card__description">Убивайте других игроков и получайте за это монеты.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-steps">
+                                <div class="progress-step">
+                                    <h4 class="progress-step__title">1. Выбор работы</h4>
+                                    <p>Напишите команду <code>/jobs</code> или подойдите к NPC "Работы" на спавне и выберите одну из 10 доступных профессий.</p>
+                                </div>
+                                
+                                <div class="progress-step">
+                                    <h4 class="progress-step__title">2. Выполнение задач</h4>
+                                    <p>Выполняйте задачи профессии (например, "Убить 4 животных"). По мере выполнения вы будете получать уведомления в чат.</p>
+                                </div>
+                                
+                                <div class="progress-step">
+                                    <h4 class="progress-step__title">3. Развитие и заработок</h4>
+                                    <p>За выполнение заданий вы накапливаете монеты в меню "Выплата за работу". Для получения 1 монеты нужно выполнить несколько заданий.</p>
+                                </div>
+                                
+                                <div class="progress-step">
+                                    <h4 class="progress-step__title">4. Получение оплаты</h4>
+                                    <p>Когда вы заработаете монеты, вы можете вывести их на свой баланс или продолжить накапливать, выполняя более сложные задания.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="wiki-section" data-animation="fade-in">
+                        <h3 class="wiki-section__title"><i class="fas fa-globe"></i> Игровые режимы</h3>
+                        <div class="wiki-content">
+                            <p>На сервере Zoobastiks доступны два основных режима игры:</p>
+                            
+                            <div class="world-modes">
+                                <div class="world-mode">
+                                    <img src="../icon/spawn.png" alt="ОдинБлок режим" class="world-mode__image">
+                                    <h4 class="world-mode__title">ОдинБлок</h4>
+                                    <p class="world-mode__description">Основной режим сервера. Каждый игрок получает свой остров в пустоте с одним блоком. Копая этот блок, вы получаете различные ресурсы, мобов и предметы. По мере копания открываются новые фазы с уникальным контентом.</p>
+                                    <p class="world-mode__description">Сейчас доступно 21 фаза и 15000 блоков для добычи. Радиус острова по умолчанию 50 блоков, можно расширить в <code>/shop</code>.</p>
+                                </div>
+                                
+                                <div class="world-mode">
+                                    <img src="../icon/background_zoobastiks_2.jpg" alt="Выживание" class="world-mode__image">
+                                    <h4 class="world-mode__title">Выживание</h4>
+                                    <p class="world-mode__description">Дополнительный режим для разнообразия. Это классическое выживание в открытом мире, где вы можете путешествовать между измерениями (обычный мир, Нижний мир, Край).</p>
+                                    <p class="world-mode__description">В этом режиме нет системы приватов и команд типа <code>/sethome</code>. Идеально для строительства больших проектов и отдыха от ОдинБлока.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="wiki-note">
+                                <strong>Совет:</strong> При каждой смерти в режиме ОдинБлок вам будет выдаваться кит стартовых предметов, чтобы вы могли продолжить прохождение.
+                            </div>
+                            
+                            <div class="wiki-warning">
+                                <strong>Внимание:</strong> При использовании команды <code>/ob reset</code> ваш остров будет полностью удален и создан заново. Вы потеряете весь прогресс!
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="wiki-section" data-animation="fade-in">
+                        <h3 class="wiki-section__title"><i class="fas fa-bolt"></i> Уникальные особенности</h3>
+                        <div class="wiki-content">
+                            <p>Наш сервер имеет множество особенностей, которые делают игровой процесс более интересным:</p>
+                            
+                            <ul>
+                                <li><strong>Улучшенное зачарование:</strong> Комбинируйте предметы с одинаковыми чарами для получения более высоких уровней. Например, Добыча III + Добыча III = Добыча IV. Максимальный уровень зачарования - 100!</li>
+                                <li><strong>Поднятие мобов:</strong> Присядьте и кликните правой кнопкой мыши по пассивному мобу, чтобы поднять его в инвентарь. Для размещения моба обратно, возьмите его в руку и кликните по земле.</li>
+                                <li><strong>Агрессивные пассивные мобы:</strong> Если вы атакуете пассивного моба (например, курицу), он и другие мобы рядом будут атаковать вас в ответ, нанося 1 сердце урона за удар.</li>
+                                <li><strong>Автоматическое восстановление блоков:</strong> Любые повреждения от взрывов (включая потерю предметов из сундуков) автоматически восстанавливаются через 15 секунд.</li>
+                                <li><strong>Уникальные сообщения о смерти:</strong> Разнообразные и интересные сообщения в чате при гибели игроков.</li>
+                                <li><strong>Интеграция с мессенджерами:</strong> Сообщения с сервера дублируются в Discord и Telegram, и наоборот.</li>
+                            </ul>
+                            
+                            <div class="wiki-note">
+                                <strong>Интеграция с Telegram:</strong> В телеграм-канале вы можете использовать команды <code>/online</code>, <code>/tps</code>, <code>/player [Nickname]</code>, <code>/gender [man/gerl]</code>, <code>/game</code> для взаимодействия с сервером. За регистрацию никнейма в телеграме вы получите 50 монет!
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                
+                <!-- Кнопки навигации -->
+                <div class="button-container">
+                    <a href="../index.html" class="btn btn--secondary">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </a>
+                    <a href="voting.html" class="btn btn--primary">
+                        Вперед <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__content">
+                    <div class="footer__copyright">
+                        <p>&copy; 2025 <a href="../index.html">Zoobastiks Minecraft Server</a>. Все права защищены.</p>
+                        <p>Minecraft является торговой маркой Mojang Studios.</p>
+                    </div>
+                    <div class="footer__links">
+                        <a href="https://discord.gg/vEaCqQ7kXN" class="social-link" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                        <a href="https://t.me/ReZoobastik" class="social-link" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Шаблон для оповещений -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Скрипты приложения -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Показать тело после загрузки
+            document.body.style.opacity = 1;
+            
+            // Скрыть лоадер после загрузки контента
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = 0;
+                document.getElementById('app').style.opacity = 1;
+                
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 800);
+            
+            // Анимации при скролле
+            const animateElements = document.querySelectorAll('.wiki-section, .hero__title, .hero__description');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html> 

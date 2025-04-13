@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пример использования ServerStatus - Zoobastiks Minecraft</title>
+    <meta name="description" content="Пример использования компонента статуса сервера для Minecraft.">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components/server-status.css">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1>Пример использования ServerStatus</h1>
+            <p>Демонстрация работы компонента статуса сервера</p>
+        </header>
+
+        <!-- Пример использования компонента статуса сервера -->
+        <div id="serverStatus"></div>
+
+        <div class="content-section">
+            <h2>Как использовать компонент ServerStatus</h2>
+            <p>Для использования компонента ServerStatus на вашей странице, следуйте этим шагам:</p>
+            
+            <div class="code-example">
+                <h3>1. Подключите CSS-файл в заголовке страницы:</h3>
+                <pre><code>&lt;link rel="stylesheet" href="css/components/server-status.css"&gt;</code></pre>
+                
+                <h3>2. Добавьте элемент-контейнер в HTML:</h3>
+                <pre><code>&lt;div id="serverStatus"&gt;&lt;/div&gt;</code></pre>
+                
+                <h3>3. Подключите JavaScript-файл компонента перед закрывающим тегом body:</h3>
+                <pre><code>&lt;script src="js/components/ServerStatus.js"&gt;&lt;/script&gt;</code></pre>
+                
+                <h3>4. Инициализируйте компонент:</h3>
+                <pre><code>&lt;script&gt;
+    document.addEventListener('DOMContentLoaded', function() {
+        // Создание экземпляра компонента
+        const serverStatus = new ServerStatus({
+            container: '#serverStatus',
+            serverAddress: 'play.zoobastiks.ru',
+            serverPort: 25565,
+            apiEndpoint: 'https://api.mcsrvstat.us/2/',
+            refreshInterval: 60000,
+            autoRefresh: true
+        });
+        
+        // Инициализация компонента
+        serverStatus.init();
+    });
+&lt;/script&gt;</code></pre>
+            </div>
+            
+            <h2>Параметры конфигурации</h2>
+            <p>Компонент ServerStatus принимает следующие параметры:</p>
+            
+            <table class="params-table">
+                <thead>
+                    <tr>
+                        <th>Параметр</th>
+                        <th>Тип</th>
+                        <th>По умолчанию</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>container</td>
+                        <td>string</td>
+                        <td>'#serverStatus'</td>
+                        <td>CSS-селектор контейнера для отображения компонента</td>
+                    </tr>
+                    <tr>
+                        <td>serverAddress</td>
+                        <td>string</td>
+                        <td>'play.zoobastiks.ru'</td>
+                        <td>Адрес Minecraft-сервера</td>
+                    </tr>
+                    <tr>
+                        <td>serverPort</td>
+                        <td>number</td>
+                        <td>25565</td>
+                        <td>Порт Minecraft-сервера</td>
+                    </tr>
+                    <tr>
+                        <td>apiEndpoint</td>
+                        <td>string</td>
+                        <td>'https://api.mcsrvstat.us/2/'</td>
+                        <td>URL API для получения статуса сервера</td>
+                    </tr>
+                    <tr>
+                        <td>refreshInterval</td>
+                        <td>number</td>
+                        <td>60000</td>
+                        <td>Интервал обновления статуса в миллисекундах (1 минута)</td>
+                    </tr>
+                    <tr>
+                        <td>autoRefresh</td>
+                        <td>boolean</td>
+                        <td>true</td>
+                        <td>Автоматическое обновление статуса</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2023 <a href="https://zoobastiks.ru">Zoobastiks.ru</a>. Все права защищены. Minecraft является торговой маркой Mojang Studios.</p>
+        </div>
+    </footer>
+
+    <!-- Подключение компонента и его инициализация -->
+    <script src="../js/components/ServerStatus.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Создание экземпляра компонента
+            const serverStatus = new ServerStatus({
+                container: '#serverStatus',
+                serverAddress: 'play.zoobastiks.ru',
+                serverPort: 25565,
+                apiEndpoint: 'https://api.mcsrvstat.us/2/',
+                refreshInterval: 60000,
+                autoRefresh: true
+            });
+            
+            // Инициализация компонента
+            serverStatus.init();
+        });
+    </script>
+
+    <style>
+        /* Стили для страницы примера */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .content-section {
+            margin-top: 40px;
+        }
+        
+        .code-example {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .code-example {
+                background-color: #1e1e1e;
+            }
+        }
+        
+        .code-example h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .code-example pre {
+            background-color: #eeeeee;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .code-example pre {
+                background-color: #2d2d2d;
+            }
+        }
+        
+        .params-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .params-table th, .params-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .params-table th, .params-table td {
+                border-color: #444;
+            }
+        }
+        
+        .params-table th {
+            background-color: #f2f2f2;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .params-table th {
+                background-color: #333;
+            }
+        }
+        
+        .site-footer {
+            margin-top: 50px;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .site-footer {
+                border-color: #333;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .code-example {
+                padding: 15px;
+            }
+            
+            .params-table {
+                font-size: 14px;
+            }
+        }
+    </style>
+</body>
+</html> 

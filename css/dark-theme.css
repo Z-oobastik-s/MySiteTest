@@ -1,0 +1,522 @@
+/*
+ * Zoobastiks - Dark Theme 2025
+ * Темная тема оформления для сайта сервера Minecraft
+ */
+
+/* ---------- Переменные темы ---------- */
+:root {
+  /* Основные цвета */
+  --primary: #5d4ff0;
+  --primary-light: #7e71ff;
+  --primary-dark: #4935d2;
+  
+  --secondary: #38b2ac;
+  --secondary-light: #4fd1cb;
+  --secondary-dark: #2c8c87;
+  
+  --accent: #e05a00;
+  --accent-light: #ff6a00;
+  --accent-dark: #b84700;
+  
+  /* Фоновые цвета */
+  --dark: #0a0a0f;
+  --darker: #050508;
+  --dark-alt: #13131e;
+  --dark-elevated: #1c1c2a;
+  
+  /* Текстовые цвета */
+  --light: #e0e0f0;
+  --light-muted: #a9adc6;
+  --muted: #70748c;
+  
+  /* Утилитарные цвета */
+  --success: #18b566;
+  --success-light: #20d278;
+  --success-dark: #149855;
+  
+  /* Граничные цвета */
+  --border: #1f2035;
+  --border-light: #2a2c45;
+  
+  /* Градиенты */
+  --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  --gradient-dark: linear-gradient(180deg, #0a0a14 0%, #14142a 100%);
+  --gradient-header: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  
+  /* Тени */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.5);
+  --shadow-inner: inset 0 2px 6px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 15px rgba(93, 79, 240, 0.5);
+}
+
+/* ---------- Общие стили ---------- */
+body {
+  background-color: var(--dark);
+  background-image: url('../icon/background_zoobastiks.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: var(--light);
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--darker);
+  opacity: 0.85;
+  z-index: -1;
+}
+
+/* ---------- Шапка ---------- */
+.header {
+  background: var(--gradient-header);
+  padding: 3rem 0;
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../icon/11111.png');
+  background-size: contain;
+  background-position: right;
+  background-repeat: no-repeat;
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.header__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.header__title {
+  color: var(--primary-light);
+  text-shadow: 0 0 10px rgba(93, 79, 240, 0.7);
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.header__subtitle {
+  color: var(--light);
+  font-size: 1.5rem;
+  opacity: 0.9;
+}
+
+/* ---------- Навигация ---------- */
+.navigation {
+  background-color: var(--dark-alt);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+.navigation__list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+}
+
+.navigation__item {
+  margin: 0;
+}
+
+.navigation__link {
+  display: block;
+  padding: 1rem 1.25rem;
+  color: var(--light-muted);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+  font-weight: 500;
+}
+
+.navigation__link:hover {
+  color: var(--light);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.navigation__link--active {
+  color: var(--primary-light);
+}
+
+.navigation__link--active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 3px 3px 0 0;
+}
+
+/* ---------- Основной контент ---------- */
+.main {
+  flex: 1;
+  padding: 0 0 3rem;
+}
+
+/* ---------- Герой секция ---------- */
+.hero {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+  padding: 3rem 2rem;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../icon/spawn.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero__title {
+  color: var(--primary-light);
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero__description {
+  color: var(--light);
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+
+.hero__buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ---------- Кнопки ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  box-shadow: var(--shadow-md);
+  min-width: 160px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.btn--primary {
+  background: var(--gradient-primary);
+  color: var(--light);
+}
+
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 0 12px rgba(93, 79, 240, 0.5);
+  color: white;
+}
+
+.btn--secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--light);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  color: white;
+}
+
+/* ---------- Карточки особенностей ---------- */
+.features {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: var(--primary-light);
+  font-size: 2.25rem;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.feature-card {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+  height: 100%;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+}
+
+.feature-card__icon {
+  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+  color: var(--primary);
+  background: rgba(93, 79, 240, 0.1);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.feature-card__title {
+  color: var(--light);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.feature-card__description {
+  color: var(--light-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ---------- Подвал ---------- */
+.footer {
+  background-color: var(--dark-alt);
+  border-top: 1px solid var(--border);
+  padding: 3rem 0;
+  margin-top: auto;
+}
+
+.footer__content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.footer__copyright {
+  color: var(--light-muted);
+  font-size: 0.9rem;
+}
+
+.footer__copyright a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer__copyright a:hover {
+  color: var(--light);
+}
+
+.footer__links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--light);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  font-size: 1.4rem;
+}
+
+.social-link:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ---------- Адаптивность ---------- */
+@media (max-width: 768px) {
+  .header {
+    padding: 2rem 0;
+  }
+  
+  .header__title {
+    font-size: 2.25rem;
+  }
+  
+  .header__subtitle {
+    font-size: 1.25rem;
+  }
+  
+  .navigation__link {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .hero {
+    padding: 2rem 1rem;
+  }
+  
+  .hero__title {
+    font-size: 2rem;
+  }
+  
+  .hero__description {
+    font-size: 1.1rem;
+  }
+  
+  .btn {
+    padding: 0.6rem 1.2rem;
+    min-width: 140px;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .feature-card {
+    padding: 1.5rem;
+  }
+  
+  .feature-card__icon {
+    font-size: 2rem;
+    width: 70px;
+    height: 70px;
+  }
+  
+  .feature-card__title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header__title {
+    font-size: 1.75rem;
+  }
+  
+  .header__subtitle {
+    font-size: 1rem;
+  }
+  
+  .navigation__list {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+  }
+  
+  .hero__buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .footer__content {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ---------- Анимации ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-up {
+  animation: slideInUp 0.6s ease forwards;
+} 
